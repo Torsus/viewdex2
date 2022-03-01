@@ -1,0 +1,246 @@
+@version 2.54
+This document describes how to create ViewDEX distributions on Windows-, Linux-
+and macOS operating systems. The task can be accomplished in different ways, but
+most important is to understand the differences between the operating systems
+and what implications that have for creating distributions and running the
+software.
+ 
+ViewDEX have distributions for Windows, Linux and macOS.
+
+Platforms used for development
+Windows 7, Computer name: W336376.
+Linux Mint 3.13.0-37-service #64 Ubunto, Host: mftdev5. AssetNo: W251107.
+macOS High Sierra, MacBook Pro.
+
+Environment: NetBeans 8.2. Java Platform JDK 1.8.
+
+All disributions
+================
+Define the productName and productVersion of ViewDEX in the following field
+in the class mft.vdex.app.ViewDex
+eg.
+
+"public static final String productName = "ViewDEX 2"
+"public static final String productVersion = "ViewDEX-2.54"
+
+
+Windows distribution
+====================
+The following property- and textfiles are included in the distribution.
+
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+user.properties
+README.txt
+releas-notes.txt
+license.txt
+ViewDEX.l4j.ini
+
+Libraries for the Windows distribution.
+~ViewDEX\lib\dist\
+~ViewDEX\lib\dist\{32,64}\
+
+
+How to create a distribution
+
+1) Check that all property files have the correct properties and values defined.
+
+2) Verify (and set if needed) that all the text files have the correct line
+ending (eol). This can be done with the NetBeans plugin "Show and change line
+endings", or by a suitable "hex editor", eg. DeltaHex Editor. The following
+values should be set
+
+Windows -> \r\n (CRLF)
+Linux -> \n (LF)
+macsOS -> \r (CR)
+
+(13 D 015 CR)
+(10 A 012 LF)
+
+3) Edit if needed the NetBeans configuration file ~ViewDEX\build.xml.
+
+4) Edit if needed the launch4j configuration file ~ViewDEX\l4j\config-exe.xml.
+
+5) WinZip Self-Extractor: How to use the program to create the self-extraction
+distributions for Windows 32/64.
+
+1. Open
+2. Next.
+3. Select ”Standard self-extraction Zip file”.
+4. Next.
+5. Chose zip-file. Filename: ~ViewDEX\dist\ViewDEX-{2.xx}-win64.zip.
+6. Next.
+7. Specify a default ”unzip to” folder → Folder: c:\ViewDEX.
+8. Specify a command to issue after the unzip operation completes. Command and
+parameters: notepad release-notes.txt.
+9. Next.
+10. Specify filename for icon. Browse → ~ViewDEX\icons\viewdex.ico
+11. Specify options. Select the following...
+Default to overwrite files without prompting.
+When run on Windows Vista: Run as user.
+Language: English
+12. Next
+13. Next
+14. Exit
+
+6) Double click on the ~ViewDEX\dist\ViewDEX-{3.0}-win64.exe file and unzip the
+distribution.
+
+7) Double click on c:\ViewDEX\ViewDEX.exe to run the program.
+
+
+Linux distribution
+====================
+
+The following property- and textfiles are included in the distribution.
+
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+user.properties
+README.txt
+releas-notes.txt
+license.txt
+ViewDEX-start.sh
+
+Libraries for the Linux distribution.
+~ViewDEX\lib\dist\
+~ViewDEX\lib\dist\linux\
+
+Property- and textfiles for the linux distribution.
+~ViewDEX\resources\linux
+
+Scrip and build files to create the linux distribution.
+~ViewDEX/distributions/linux
+
+For the linux property files the image database properties have to be defined
+as follows.
+
+imagedb.directory.main = ./imagedb/{name of database}
+imagedb.directory.demo = ./imagedb/{name of database}
+
+eg.
+imagedb.directory.main = ./imagedb/FROC-main
+imagedb.directory.demo = ./imagedb/FROC-demo
+
+Note: There is no need to compile the program on the linux platform.
+
+How to create a linux distribution
+
+1) Same as for Windows distribution.
+2) Same as for Windows distribution.
+3) Same as for Windows distribution.
+4) Same as for Windows distribution.
+
+5) Copy the ViewDEX project to the Linux system (eg./home/'user'/development)
+
+6) $ cd /home/'user'/development
+
+7) $ chmod -R 755 ViewDEX
+
+8) $ cd ViewDEX/distributions/linux
+
+9) $ ./create_release_linux
+
+To extract the tar file and run the program
+
+1) $ tar xvf ViewDEX-2.53-linux-bin-tar.gz
+
+2) $ ./ViewDEX.sh
+
+
+macOS distribution
+====================
+
+The following property- and textfiles are included in the distribution.
+
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+FROC 1440x900.properties
+FROC 2880x1800.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+ROC 1440x900.properties
+ROC 2880x1800.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+VGC 1440x900.properties
+VGC 2880x1800.properties
+user.properties
+README.txt
+releas-notes.txt
+license.txt
+ViewDEX-start.sh
+
+Libraries for the macOS distribution.
+~ViewDEX\lib\dist\
+~ViewDEX\lib\dist\macos\
+
+Property- and textfiles for the macOS distribution.
+~ViewDEX\resources\macOS
+
+Scrip and build files to create the macOS distribution.
+~ViewDEX/macos/
+
+For the macos property files the image database properties have to be defined
+as follows.
+imagedb.directory.main = ./imagedb/{name of database}
+imagedb.directory.demo = ./imagedb/{name of database}
+
+eg.
+imagedb.directory.main = ./imagedb/FROC-main
+imagedb.directory.demo = ./imagedb/FROC-demo
+
+Note: There is no need to compile the program on the macOS platform.
+
+
+How to create a distribution
+
+1) Same as for Windows distribution.
+2) Same as for Windows distribution.
+3) Same as for Windows distribution.
+4) Same as for Windows distribution.
+
+5) Copy the ViewDEX project to the macOS system (eg./home/'user'/development)
+
+6) # cd /home/'user'/development
+
+7) # chmod -R 755 ViewDEX
+
+8) # cd ViewDEX/distributions/macOS
+
+6) zzzz  Open ViewDEX project in NetBeans.
+
+
+zzzzzzzzzzzzzzzzzzzzzz
+
+Notes
+=====
+
+
+
+zzzz Copy the project to the linux or macos system.
+2) The followin variables have to be set in the create_release script.
+os={linux,macos}
+version=x.xx
+
+eg.
+os=linux
+version=3.0
+
+
+
+/end
+
+
+
+
+
+

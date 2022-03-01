@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+    <headerType>gui</headerType>
+    <jar>C:\Development2\ViewDEX2\dist\ViewDEX.jar</jar>
+    <outfile>C:\Development2\ViewDEX2\dist\ViewDEX.exe</outfile>
+    <errTitle>ViewDEX</errTitle>
+    <icon>C:\Development2\ViewDEX2\icons\viewdex.ico</icon>
+    <!-- <jar>C:\Development\ViewDEX-2.0\dist\viewdex_obf.jar</jar> -->
+    <dontWrapJar>false</dontWrapJar>
+
+    <classPath>
+        <mainClass>mft.vdex.app.ViewDex</mainClass>
+        <!-- <cp>.\lib\*.jar</cp> -->
+    </classPath>
+    
+    <jre>
+        <!-- ******************************************* -->
+        <!-- 64 bit -->
+        <!-- <path>lib\64\jre1.8.0_191\</path> -->
+        <!-- <path>lib\64\jre1.7.0_25\</path> -->
+        <!-- <path>lib\64\jre1.6.0_03\</path> -->
+        <!-- <bundledJre64Bit>true</bundledJre64Bit> -->
+        <!-- 32 bit -->
+        <!-- <path>lib\32\jre1.6.0_03\</path> -->
+        <!-- <bundledJre64Bit>false</bundledJre64Bit> -->
+        <!--******************************************** -->
+        
+        <path>lib\64\jre1.8.0_191\</path>
+        <bundledJre64Bit>true</bundledJre64Bit>
+        <jdkPreference>jdkOnly</jdkPreference>
+        <!-- <runtimeBits>32</runtimeBits> -->
+        <initialHeapPercent>20</initialHeapPercent>
+        <maxHeapPercent>80</maxHeapPercent>
+    </jre>
+    
+     <versionInfo>
+        <fileVersion>2.0.0.0</fileVersion>
+        <txtFileVersion>2.0.0.0</txtFileVersion>
+        <fileDescription>Windows native executables</fileDescription>
+        <copyright>Sahlgrenska University Hospital</copyright>
+        <productVersion>2.5.6.0</productVersion>
+        <txtProductVersion>2.56</txtProductVersion>
+        <productName>ViewDEX 2, Viewer for Digital Evaluation of Xray images</productName>
+        <companyName>Sahlgrenska University Hospital</companyName>
+        <internalName>ViewDEX</internalName>
+        <originalFilename>ViewDEX.exe</originalFilename>
+    </versionInfo>
+    
+    
+    <!--
+    <supportUrl/>>
+    <cmdLine/>
+    <chdir/>
+    <priority/>
+    <stayAlive/>
+    <lib/>
+    <var/>
+    <splash/>
+    <messages/>
+    -->
+</launch4jConfig>

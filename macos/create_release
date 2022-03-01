@@ -1,0 +1,101 @@
+#!/bin/bash
+
+os=macos
+version = 2.53
+#os=linux
+dist=./$os"_dist"
+test_dir=./test
+dist_name=ViewDEX-$version-$os-bin-tar
+
+echo $os
+echo $dist
+echo $dist_name
+
+if [ -d $dist ]
+  then
+    echo "$dist exist"
+    rm -rf $dist
+    echo "$dist deleted"
+fi
+
+if [ -d $test_dir ]
+  then
+    echo "$test_dir exist"
+    rm -rf $test_dir
+    echo "$test_dir deleted"
+fi
+
+# Build the structures needed to make the tar
+
+mkdir -p  $dist/imagedb
+cp -r ./imagedb/FROC-main $dist/imagedb
+cp -r ./imagedb/FROC-demo $dist/imagedb
+cp -r ./imagedb/ROC-main $dist/imagedb
+cp -r ./imagedb/ROC-demo $dist/imagedb
+cp -r ./imagedb/VGC-main $dist/imagedb
+cp -r ./imagedb/VGC-demo $dist/imagedb
+
+mkdir -p $dist/resources
+cp resources/'FROC 1280x1024.properties' $dist/resources
+cp resources/'FROC 2048x1536.properties' $dist/resources
+cp resources/'FROC 1440x900.properties' $dist/resources
+cp resources/'FROC 2880x1800.properties' $dist/resources
+cp resources/'ROC 1280x1024.properties' $dist/resources
+cp resources/'ROC 2048x1536.properties' $dist/resources
+cp resources/'ROC 1440x900.properties' $dist/resources
+cp resources/'ROC 2880x1800.properties' $dist/resources
+cp resources/'VGC 1280x1024.properties' $dist/resources
+cp resources/'VGC 2048x1536.properties' $dist/resources
+cp resources/'VGC 1440x900.properties' $dist/resources
+cp resources/'VGC 2880x1800.properties' $dist/resources
+cp resources/user.properties $dist/resources
+
+mkdir -p $dist/lib
+cp lib/dist/TableLayout.jar $dist/lib
+cp lib/dist/dcm4che.jar $dist/lib
+cp lib/jai_core.jar $dist/lib
+cp lib/jai_codec.jar $dist/lib
+cp lib/jai_imageio.jar $dist/lib
+cp lib/dist/log4j.jar $dist/lib
+cp -r lib/dist/$os $dist/lib
+
+mkdir -p $dist/lut
+cp lut/GE-Col.lut $dist/lut
+cp lut/Hotiron.lut $dist/lut
+
+mkdir $dist/icons
+cp icons/viewdex.ico $dist/icons
+
+cp README.TXT $dist
+cp release-notes.txt $dist
+cp license.txt $dist
+
+cp ./macos/ViewDEX.jar $dist
+cp ./macos/ViewDEX.sh $dist
+
+target=$dist_name
+
+echo "tar"
+cd $dist
+
+echo "tar"
+tar cvf $target \
+imagedb \
+resources \
+lib \
+lut \
+icons \
+README.TXT \
+release-notes.txt \
+license.txt \
+ViewDEX.jar \
+ViewDEX.sh
+
+echo "gzip"
+gzip $target
+
+mkdir test
+cp $dist_name".gz" test
+
+echo "end"
+

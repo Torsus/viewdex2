@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="ViewDEX" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ViewDEX.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <!--
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="ViewDEX-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+
+    <property name="project.dist.name" value="ViewDEX"/>
+    <property name="project.version.major" value="2"/>
+    <property name="project.version.minor" value=".50"/>
+    <property name="project.name" value="${ant.project.name}"/>
+
+    <!-- 64/32 ********************************************************* -->
+    <property name="os.platform" value="win"/>
+    <!-- <property name="os.platform" value="linux"/> -->
+    <!-- <property name="os.platform" value="macosx"/> -->
+    <property name="os.architecture" value="64"/>
+    <property name="os.architecture" value=""/>
+    <!-- 64 ************************************************************ -->
+
+    <property name="obf.filename" value="viewdex_obf"/>
+
+    <!--- zip -->
+    <property name="zipfile.name.sign" value="${project.name}-sign.zip"/>
+    <property name="zipfile.name.bin" value="${project.name}-bin.zip"/>
+    <property name="zipfile.dist" value="${basedir}/dist/${project.dist.name}-${project.version.major}${project.version.minor}-${os.platform}${os.architecture}-bin.zip"/>
+
+    <property name="dist.lib.dir" value="${basedir}/lib/dist"/>
+    <property name="dist.resources.dir" value="${basedir}/resources"/>
+    <property name="dist.resources.linux.dir" value="${basedir}/resources/linux"/>
+    <property name="dist.icons.dir" value="${basedir}/icons"/>
+    <property name="dist.imagedb.dir" value="${basedir}/imagedb"/>
+    <property name="dist.docs.dir" value="${basedir}/docs"/>
+    <property name="dist.jre.dir" value="${basedir}/lib/jre1.6.0"/>
+    <property name="dist.lut.dir" value="${basedir}/lut"/>
+
+    <property name="app.mainclass" value ="mft.vdex.app.ViewDex"/>
+    <!--
+    <property name="launch4j.dir" value ="${basedir}/launch4j"/>
+    -->
+
+    <property name="file.ref.yguard.jar" value ="${basedir}/lib/yguard-1.5.0_03/lib/yguard.jar"/>
+    <property name="file.ref.yguard-2.2.0.jar" value ="${basedir}/lib/yguard-2.2.0/lib/yguard.jar"/>
+    <property name="obfuscation.log" value ="obfuscationlog"/>
+    <property name="obfuscation.shrink.log" value ="obfuscationshrinklog.xml"/>
+    <property name="obfuscation.rename.log" value ="obfuscationrenamelog.xml"/>
+    <property name="obf.src.jar" value ="${basedir}/dist/${project.name}.jar"/>
+    <property name="obf.dist.jar" value ="${basedir}/dist/${obf.filename}.jar"/>
+
+    <!--
+    <property name="obf.file.name" value ="viewdex2.jar"/>
+    -->
+
+    <!--
+    <taskdef name="obfuscate"
+      classname="com.yworks.yguard.ObfuscatorTask"
+      classpath="${file.ref.yguard.jar}"/>
+    -->
+
+    <!--
+    ***********************
+    create-zipfile-bin
+    ***********************
+    -->
+    <target name="-post-jar">
+        <echo message="project.name = ${project.name}"/>
+        <echo message="basedir = ${basedir}"/>
+        <echo message="dist.dir = ${dist.dir}"/>
+        <echo message="zipfile.dist = ${zipfile.dist}"/>
+        <echo message="dist.lib.dir = ${dist.lib.dir}"/>
+        <echo message="dist.jre.dir = ${dist.jre.dir}"/>
+        <echo message="dist.imagedb.dir = ${dist.imagedb.dir}"/>
+
+        <echo message="file.ref.yguard.jar = ${file.ref.yguard.jar}"/>
+        <echo message="app.mainclass = ${app.mainclass}"/>
+        <echo message="obf.src.jar = ${obf.src.jar}"/>
+        <echo message="obf.dist.jar = ${obf.dist.jar}"/>
+        <echo message="obf.file.name = ${obf.file.name}"/>
+
+
+        <!-- Obfuscate -->
+        <!--
+        <obfuscate mainclass="${app.mainclass}" logfile="${obfuscation.log}"
+                replaceclassnamestrings="true">
+                <inoutpair in="${obf.src.jar}" out="${obf.dist.jar}"/>
+        </obfuscate>
+        -->
+
+        <!--
+        <taskdef name="yguard"
+                 classname="com.yworks.yguard.YGuardTask"
+                 classpath="${file.ref.yguard-2.2.0.jar}"/>
+        -->
+        <!--
+        <yguard>
+            <inoutpair in="${obf.src.jar}" out="${obf.dist.jar}"/>
+
+
+            <shrink logfile="${obfuscation.shrink.log}">
+                <keep>
+                    <method name="void main(java.lang.String[])" class="mft.vdex.app.ViewDex" />
+                    <class implements="java.io.Serializable"/>
+                </keep>
+            </shrink>
+
+
+
+            <rename mainclass="mft.vdex.app.ViewDex" logfile="${obfuscation.rename.log}" >
+                <keep>
+                    <class name="mft.vdex.modules.vg.VgHistory"/>
+                    <method name="void readObject(java.io.ObjectInputStream)" />
+                    <method name="void writeObject(java.io.ObjectOutputStream)" />
+                    <field name="serialVersionUID" />
+                </keep>
+            </rename>
+
+            <rename mainclass="mft.vdex.app.ViewDex"
+                    logfile="${obfuscation.rename.log}" >
+                <keep>
+
+                    <method name ="void readObject(java.io.ObjectInputStream)" />
+                    <method name ="void writeObject(java.io.ObjectOutputStream)" />
+                    <field name="serialVersionUID" />
+
+                    <class name="mft.vdex.modules.vg.VgCanvasInterpolationControl"/>
+                    <class name="mft.vdex.modules.vg.VgCineLoopPanel"/>
+                    <class name="mft.vdex.modules.vg.VgCineLoopPanelControl"/>
+                    <class name="mft.vdex.modules.vg.VgClarificationPanel"/>
+                    <class name="mft.vdex.modules.vg.VgClarificationPanel2"/>
+                    <class name="mft.vdex.modules.vg.VgControl"/>
+                    <class name="mft.vdex.modules.vg.VgFunctionPanel"/>
+                    <class name="mft.vdex.modules.vg.VgFunctionPanelWLControl"/>
+                    <class name="mft.vdex.modules.vg.VgFunctionPanelZoomControl"/>
+                    <class name="mft.vdex.modules.vg.VgFunctionPanelZoomModeControl"/>
+                    <class name="mft.vdex.modules.vg.VgHistory"/>
+                    <class name="mft.vdex.modules.vg.VgImageSelectControlPanel"/>
+                    <class name="mft.vdex.modules.vg.VgLocalizationPanel"/>
+                    <class name="mft.vdex.modules.vg.VgLog"/>
+                    <class name="mft.vdex.modules.vg.VgLogOptionalSpecial"/>
+                    <class name="mft.vdex.modules.vg.VgLogOptionalTag"/>
+                    <class name="mft.vdex.modules.vg.VgRunPanel"/>
+                    <class name="mft.vdex.modules.vg.VgStudyDone"/>
+                    <class name="mft.vdex.modules.vg.VgTaskPanel"/>
+                    <class name="mft.vdex.modules.vg.VgTaskPanelClarification"/>
+                    <class name="mft.vdex.modules.vg.VgFunctionPanelQuestion"/>
+                    <class name="mft.vdex.modules.vg.VgTaskPanelResult"/>
+
+
+                    <class classes="private" methods="private" fields="private">
+                        <patternset>
+                            <include name="mft.vdex.ds.**"/>
+                            <include name="mft.vdex.modules.vg.**"/>
+                            <include name="mft.vdex.util.**"/>
+                            <include name="mft.vdex.imageio.**"/>
+                            <include name="mft.vdex.app.**"/>
+                            <include name="mft.vdex.controls.**"/>
+                            <include name="mft.vdex.dialog.**"/>
+                            <include name="mft.vdex.event.**"/>
+                            <include name="mft.vdex.modules.roc.**"/>
+                            <include name="mft.vdex.viewer.**"/>
+                        </patternset>
+                    </class>
+                </keep>
+            </rename>
+        </yguard>
+        -->
+
+        <!-- Launch4J -->
+        <property name = "launch4j.dir" location=".\launch4j\launch4j" />
+        <echo message="launch4j.dir = ${launch4j.dir}"/>
+
+        <taskdef name="launch4j"
+            classname="net.sf.launch4j.ant.Launch4jTask"
+            classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
+
+        <launch4j configFile="./l4j/config-exe.xml"/>
+
+        <!-- zip -->
+        <zip destfile="${zipfile.dist}">
+            <!--
+            <fileset dir="${dist.dir}"
+                includes="${obf.file.name}"/>
+            -->
+            <!--
+            <zipfileset dir="${dist.dir}" prefix="lib">
+                <include name="${obf.file.name}" />
+            </zipfileset>
+            -->
+
+            <!-- 64/32 ************************************************ -->
+            <fileset dir="${dist.dir}"
+                includes="ViewDEX.exe"/>
+
+            <!--
+            <fileset dir="${dist.dir}"
+                includes="ViewDEX.jar"/>
+            -->
+            <!-- 64/32 ************************************************ -->
+
+            <fileset dir="${basedir}"
+                includes="README.TXT, license.txt, release-notes.txt, ViewDEX.exe"/>
+
+            <!-- includes="README.TXT, license.txt, release-notes.txt, ViewDEX.exe, ViewDEX-32_start.bat"/> -->
+            <!-- includes="README.TXT, license.txt, release-notes.txt, ViewDEX-64_start.bat"/> -->
+            <!-- includes="README.TXT, license.txt, release-notes.txt -->
+
+            <!-- ViewDEX-start.sh, ViewDEX.bat, ViewDEX-32_start.bat, ViewDEX-64_start.bat -->
+            <!-- ViewDEX.l4j.ini"/> -->
+            
+
+            <zipfileset dir="${dist.lib.dir}" prefix="lib">
+                <include name="*.*"/>
+                <!-- include name="32/jre1.6.0_03/**"/> -->
+                <include name="64/jre1.6.0_03-64/**"/>
+                
+                <!-- 64/32 bit ****************************************** -->
+                <!-- <include name="linux/jre1.6.0_45/**"/> -->
+                <!-- <include name="jre-8u31/**"/> -->
+                <!-- <include name="64/jre1.6.0_03-64/**"/> -->
+                <!-- <include name="64/jre1.7.0_25-64/**"/> -->
+                <!-- <include name="32/jre-8u31/**"/> -->
+                <!-- <include name="32/jre1.6.0_03-32/**"/> -->
+               
+                <!-- 64/32 ********************************************** -->
+            </zipfileset>
+
+            <zipfileset dir="${dist.resources.dir}" prefix="resources">
+                <!--<include name="FROC 1280x1024.properties"/>
+                <include name="FROC 2048x1536.properties"/>
+                <include name="ROC 1280x1024.properties"/>
+                <include name="ROC 2048x1536.properties"/>
+                <include name="VGC 1280x1024.properties"/>
+                <include name="VGC 2048x1536.properties"/>
+                <include name="user.properties"/>
+                <include name="pollux.properties"/>
+                -->
+
+                <include name="FROC 1280x1024.properties"/>
+                <include name="FROC 2048x1536.properties"/>
+                <include name="ROC 1280x1024.properties"/>
+                <include name="ROC 2048x1536.properties"/>
+                <include name="VGC 1280x1024.properties"/>
+                <include name="VGC 2048x1536.properties"/>
+                <include name="user.properties"/>
+                <include name="PropertiesToAdd.txt"/>
+
+               </zipfileset>
+
+            <zipfileset dir="${dist.icons.dir}" prefix="icons">
+                <include name="*.*"/>
+            </zipfileset>
+
+            <zipfileset dir="${dist.imagedb.dir}" prefix="imagedb">
+                <include name="FROC-main/**"/>
+                <include name="FROC-demo/**"/>
+                <include name="ROC-main/**"/>
+                <include name="ROC-demo/**"/>
+                <include name="VGC-main/**"/>
+                <include name="VGC-demo/**"/>
+            </zipfileset>
+            
+            <zipfileset dir="${dist.docs.dir}" prefix="doc">
+                <include name="*.*"/>
+            </zipfileset>
+
+            <zipfileset dir="${dist.lut.dir}" prefix="lut">
+                <include name="*.*"/>
+            </zipfileset>
+            <!--
+            <zipfileset dir="${dist.jre.dir}" prefix="jre">
+                <include name="*.*"/>
+                <include name="lib/**" />
+                <include name="bin/**" />
+            </zipfileset>
+            -->
+
+            <!-- <fileset dir="${dist.jre.dir}" includes="**/**" /> -->
+        </zip>
+    </target>
+</project>

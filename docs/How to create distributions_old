@@ -1,0 +1,131 @@
+﻿This dockument describes how to create ViewDEX distributions on Windows, Linux
+and macos operation systems. The task can be accomplished in different ways, but
+most important is to understand the differences between the operating systems
+and what implications that have for creating distributions and running the software.
+ 
+ViewDEX have distributions for Windows, Linux and Macos.
+
+Platforms used for development
+Windows 7
+Host:w336376
+System: Linux Mint 3.13.0-37-service #64 Ubunto
+Host: mftdev5
+Directory: /home/sune/development2
+Tools: NetBeans 7.4. Java Platform JDK1.6.0
+
+The following property- and textfiles are included in the following distributions.
+
+Windows
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+README.txt
+releas-notes.txt
+license.txt
+
+Linux
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+README.txt
+releas-notes.txt
+license.txt
+ViewDEX-start.sh
+
+Macos
+FROC 1280x1024.properties
+FROC 2048x1536.properties
+FROC 1440x900.properties
+FROC 2880x1800.properties
+ROC 1280x1024.properties
+ROC 2048x1536.properties
+FROC 1440x900.properties
+FROC 2880x1800.properties
+VGC 1280x1024.properties
+VGC 2048x1536.properties
+FROC 1440x900.properties
+FROC 2880x1800.properties
+README.txt
+releas-notes.txt
+license.txt
+ViewDEX-start.sh
+
+Libraries for linux & macos distributions.
+~ViewDEX/lib/linux/
+~ViewDEX/lib/macos/
+
+Scrip and build files to create the Linux & macos distributions.
+~ViewDEX/macos/
+
+Note: There is no need to compile the program on the Linux and Mac platforms.
+
+Windows
+=======
+WinZip Self-Extractor: How to use the program to create the self-extraction
+distributions for Windows 32/64.
+
+1) Open
+2) Next.
+3) Select ”Standard self-extraction Zip file”.
+4) Next.
+5) Chose zip-file. Filename: ~ViewDEX\dist\ViewDEX-2.48-win64.zip.
+6) Next.
+7) Specify a default ”unzip to” folder → Folder: c:\ViewDEX.
+8) Specify a command to issue after the unzip operation completes. Command and
+parameters: notepad release-notes.txt.
+9) Next.
+10) Specify filename for icon. Browse → ~ViewDEX\icons\viewdex.ico
+11) Specify options. Select the following...
+Default to overwrite files without prompting.
+When run on Windows Vista: Run as user.
+Language: English
+12) Next
+13) Next
+14) Exit
+
+1) Check that all property files have the correct properties and values defined.
+2) Verify (and set if needed) that all the text files have the correct line
+ending (eol). This can be done with the NetBeans plugin "Show and change line
+endings", or by a suitable "hex editor", eg. DeltaHex Editor. The following
+values should be set
+
+Windows -> \r\n (CRLF)
+Linux -> \n (LF)
+Macos -> \r (CR)
+
+3) For the linux and macos property files the image database property have to be
+defined as follows
+---zzzz add info for Windows
+imagedb.directory.main = ./imagedb/{name of database}
+imagedb.directory.demo = ./imagedb/{name of database}
+
+eg.
+imagedb.directory.main = ./imagedb/FROC-main
+imagedb.directory.demo = ./imagedb/FROC-demo
+
+3) Copy the project to the linux or macos system.
+4) The followin variables have to be set in the create_release script.
+os={linux,macos}
+version=x.xx
+
+eg.
+os=linux
+version=2.53
+
+
+
+
+
+/end
+
+
+
+
+
+

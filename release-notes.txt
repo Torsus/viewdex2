@@ -1,0 +1,222 @@
+#
+# Release-notes for ViewDEX version 2
+#
+
+# ViewDEX-2.56
+- Improved handling of multiframe files.
+
+# ViewDEX-2.55
+- Improved performance reading and writing history files.
+
+# ViewDEX-2.54
+- Modification of functionpanel displaysize property behaivior. When
+  "functionpanel.displaysize.default" is defined as "FIT" and no other display-
+  size buttons are defined, the "FIT" transformation occur but no "FIT" display-
+  size button is displayed.
+- Bug fix.
+
+# ViewDEX-2.53
+- New properties for localization symbol line width and color.
+
+# ViewDEX-2.52
+- Bug fix.
+
+# ViewDEX-2.51
+- Add of area measurement.
+- Bug fix.
+
+# ViewDEX-2.50
+- The time between the first appearance of an image in a case, and the click
+  for a localization, can now be logged. See property "image.timestamp.logged"
+  and "image.timestamp.temporal.resolution".
+
+# ViewDEX-2.49 (Not for distribution)
+- Modification of private property "stack-images.wl". WL values set in the
+- canvas, by use of the mouse, are used for all images in the stack.
+- Custom version.
+
+# ViewDEX-2.48
+- The following distributions are now available
+- ViewDEX-2.48-win32.exe
+- ViewDEX-2.48-win64.exe
+- ViewDEX-2.48-linux-bin.tar.gz
+- ViewDEX-2.48-macos-bin.tar.gz
+
+# ViewDEX-2.47
+- User defined values for Window Width/Window Center can be added as properties.
+- The task definition panel horizontal scrollbar is removed.
+- The task definition text can now span over more then one line.
+- Example images are now included in the distribution.
+- Distributions for 32 bit(x86) and 64 bit(x64) now available
+
+# ViewDEX-2.46 (Not for distribution)
+- Bug fix.
+- Built using jdk-8u31 (64). Distributed with jre-1.6.0_03 (x86).
+- Custom version.
+
+# ViewDEX-2.45 (Not for distribution)
+- Private property "stack-images.sort = customer", for creating the image view
+  order in a stack, using the names of the images.
+- Private property "stack-images.wl = yes", for setting the wl value during
+  rendering of an image, using the wl value from each individual image.
+- Custom version.
+
+# ViewDEX-2.44
+- Modification of ROI distance- and pixel meanvalue measurement gui.
+- Taskpanel scrolllist now works properly.
+
+# ViewDEX-2.43
+- Add of pixelvalue mean measurement.
+
+# ViewDEX-2.42
+- Bugfix: "NumberFormatException" when reading LUT data.
+  The following name/version style will be used in the coming releases.
+  Name: ViewDEX 2
+  Version: ViewDEX-2.42
+  Distribution: ViewDEX-2.42-bin.exe
+  
+# ViewDEX-2.41_beta
+- BugFix: No zoom when the a-key, for distance measurements, is activated.
+
+# ViewDEX-2.40_beta
+- Add of TaskPanel scrollbar.
+- Add of study property "taskpanel.vertical.size".
+
+# ViewDEX-2.39_beta
+- Bugfix: Reformat of image when Pixel Represenation equals 1.
+
+# ViewDEX-2.38_beta
+- Bugfix: Display problems with Dicom images, 8 bit and big arrays. 
+
+# ViewDEX-2.37_beta
+- Add of time delays for eyetrackning positions & scale UDP messages.
+- Bugfix: Cineloop reading in background image count.
+
+# ViewDEX-2.36_beta
+- Bugfix:
+
+# ViewDEX-2.35_beta
+- Improvments on stack scroll performance.
+
+# ViewDEX-2.34_beta
+- Add of color property for canvas during load of images. Used by
+- "eyetracking" software.
+- Add of image init- position and scale UDP-client message. Used by
+- "eyetracking" software.
+
+# ViewDEX-2.33_beta
+- Add of "eyetracking" login dialog.
+- Add of message properties for UDP client. Used by "eyetracking" software.
+
+# ViewDEX-2.32_beta
+- Add of message properties for UDP client. Used by "eyetracking" software.
+
+# ViewDEX-2.31_beta
+- Add of UDP-client for sending messages to the "eyetracking" software.
+- Add of address properties for UDP client.
+
+# ViewDEX-2.30_beta
+- Add of property for setting canvas color.
+- Add of font and color properties for distance measurement text.
+- Add of color properties for distance measurement line.
+- Add of "Notes" panel. The notes are printed in the logfiles.
+- Property "stack.load.background" obsolite.
+- The "LoginOptionalDialog" is now displayed in the correct location when
+  running the program from any screen other the screen 0.
+- Bugfix: Fix of logfiles creation when running in "demo" and "edit" runmode.  
+
+# ViewDEX-2.29_beta
+- Bugfix: Custom CLUT (Color Look-up Tables) for NM/MR.
+
+# ViewDEX-2.28_beta
+- Add of CLUT GE Col.
+- Bugfix: Custom CLUT now works in userRunMode "SHOW" and "EDIT".
+
+# ViewDEX-2.27_beta
+- Optional values from DICOM header logged for no localization cases.
+- The mouse scroll interaction during cine-loop is modified.
+- The login dialog location is now correct when using more then one screen.
+- Error dialog displayed for no studies in the imagedb.
+- Various dialog fonts are changed.
+- Custom CLUT (Color Look-Up Tables) for NM/MR.
+- Fixed minimum windowing for NM/MR. 
+- Bugfix: Size for the history object reduced for multframe images.
+- Bugfix: Imagedb sequence sorting algorithm modified.
+
+# ViewDEX-2.26
+- Support of Multi frame images.
+- Remove of "localization" property defined in the Localization global section.
+  The localization panel, Show/Hide and Erase button, will show if at least
+  one task is defined as localized in the Task Panel section.
+
+# ViewDEX-2.25
+- Enhanced functions to erase localization marks.
+
+# ViewDEX-2.24
+- During login in "Edit" and "Show" user mode, there is now an option to select
+  original or previous edited history object.
+- Property for sorting-order of stacks and images, now have random as default.
+- "GoTo and Prev" panel always present in "Show" usermode. 
+
+# ViewDEX-2.23
+- Bugfix: New property for the appearance of the "Go to" and "Prev" functions panel.
+  In CreateMode the "Go to" function is no longer available. In EditMode both the
+  "Go to" and "Prev" functions are always available.
+
+# ViewDEX-2.22
+- No limit for the number of tasks that can be defined.
+
+# ViewDEX-2.21
+- New "GoTo and Prev" panel.
+- New specification for the log entries.
+- Bugfix: Mismatch between overlay and logfil for localization integer (x,y)
+  values (round errors).
+- Bugfix: Correct update of overlay localization info when a localization mark
+  is deleted.
+
+# ViewDEX-2.20
+- Select and delete of localization marks in user mode "CREATE"
+
+# ViewDEX-2.19
+- Logfile item text "StackNb" changed to "StackNo".
+- Logfile item text "imgNb" changed to "imgNo".
+- Bugfix: Logfile item "imgNo" not updated correctly.
+- userRunMode "SHOW" tested.
+
+# ViewDEX-2.18
+- Support for localization.
+- Support for imagefiles and stack directories mixed in the imagedb root
+  directory.
+- Properties for specifying the viewing order when images and stacks
+  are mixed in the imagedb directory. The sorting values are sequence or random.
+  For sequence sort, if the name of the imagefiles and the stack dirctories
+  (imagefile name minus the extension name eg.(100.dcm -> 100)) are parsed as
+  signed decimal integers, the stack and images are sorted by there names.
+- Images in a stacks are now sorted, using the (0020,0013) InstanceNumber dicom
+  tag. The viewing order for images (imagefiles) contained in a stack is always
+  the "natural" order based on the 'Instans Number' There is no property to
+  change this order. Note: General Image Module Attribute Name 'Instance Number'
+  was named 'Image Number' in earlier versions of the DICOM standard.
+- A wait-cursor is shown and information text is displayed when the stacks are
+  sorted during startup.
+- A wait cursor is shown and information text is displayed, during history read
+  on program startup.
+- A wait-cursor is show and information text is displayed, when the runPanel
+  "Stop" button is activated (there could be a delay when the history object is
+  saved).
+- The selected stack information label on the runPanel now show stack no 1 for
+  the first stack (previous we showed stack no 0 for the first stack).
+- The log file now denote the first stack as stack no 1.
+- The log file now has a "StackNb" summary entry for each image and stack.
+- Pan is prohibit when setting a localization mark on the canvas.
+- Default values for most of the properties.
+- Zooming an image by using the mouse scrollwheel by pressing the Altkey +
+  mousewheel (previous Ctrlkey + mousewheel).
+- New properties for maintenance use in userRunMode 'EDIT' (Not to be included
+  in the distribution).
+- Bugfix: During a mouseDrag operation combined whith the setting of a
+  localization mark, a "beep" sounds. This is now corrected.
+
+-- end
+
+

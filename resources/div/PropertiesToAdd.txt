@@ -1,0 +1,12 @@
+## Properties to add for study by Kerstin Lagerstrand
+##
+# Private property for creating the image view order in a stack, using the
+# names of the images.
+# Default value (no)
+stack-images.sort = customer
+
+# For setting the wl value during rendering of an image, using the wl value
+# from each individual image. WL values set in the canvas, by use of the
+# mouse, are used for all images in the stack.
+# Default value (no)
+stack-images.wl = yes
