@@ -75,10 +75,10 @@ public class DicomFileImageDataReader {
         } catch (IOException e) {
             System.err.println("dcm2jpg: " + e.getMessage());
             e.printStackTrace();
-            System.exit(2);
         }
         return bi;
     }
+    
     private ImageReadParam readParam() {
         DicomImageReadParam param
                 = (DicomImageReadParam) imageReader.getDefaultReadParam();

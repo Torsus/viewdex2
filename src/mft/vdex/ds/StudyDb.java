@@ -647,47 +647,20 @@ public class StudyDb {
             }
         }
     }
-
-    /**
-     * Read the DICOM Attribute InstanceNumber for every
-     * <code>StudyDbImageNode<code/>.
-     */
-    /*
-    private void readDICOMImageMetaData_replaced(ArrayList<StudyDbImageNode> list) {
-        StudyDbImageNode imageNode = null;
-        StudyLoader_old studyLoader = new StudyLoader_old();
-
-        for (int i = 0; i < list.size(); i++) {
-            imageNode = list.get(i);
-            File filePath = imageNode.getStudyPath();
-            //System.out.println("Filepath = " + filePath);
-
-            studyLoader.readDICOMImageMetaData(filePath);
-            Dataset dataset = studyLoader.getDataSet();
-            // (0020,0013) Instance Number
-            // This Attribute was named Image Number in earlier versions
-            // of the DICOM standard.
-            String inStr = dataset.getString(Tags.InstanceNumber, null);
-            int instanceNumber = getIntegerValue(inStr);
-            imageNode.setInstanceNumber(instanceNumber);
-        }
-    }*/
+    
     /**
      * Read the DICOM Attribute InstanceNumber for every
      * <code>StudyDbImageNode<code/>.
      */
     private void readDICOMImageMetaData(ArrayList<StudyDbImageNode> list) {
         StudyDbImageNode imageNode = null;
-        DicomFileReader studyLoader = new DicomFileReader();
 
         for (int i = 0; i < list.size(); i++) {
             imageNode = list.get(i);
             File filePath = imageNode.getStudyPath();
             //System.out.println("Filepath = " + filePath);
-
-            // New implementation using dcm4che3 (20220212, sune)
+            
             DicomFileAttributeReader dicomFileAttributeReader = null;
-            DicomFileImageDataReader dicomFileImageDataReader = null;
             try {
                 dicomFileAttributeReader = new DicomFileAttributeReader();
                 dicomFileAttributeReader.readAttributes(filePath);

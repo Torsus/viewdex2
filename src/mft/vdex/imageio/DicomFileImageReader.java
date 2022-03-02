@@ -30,7 +30,6 @@ public class DicomFileImageReader {
         Raster raster = null;
         System.out.println("DicomFileImageBufferReader.readFileImageRaster " + file.getName());
 
-        //Open the DICOM file and get its pixel data
         try {
             Iterator iter = ImageIO.getImageReadersByFormatName("DICOM");
             ImageReader reader = (ImageReader) iter.next();
