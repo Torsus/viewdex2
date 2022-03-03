@@ -47,12 +47,9 @@ public class DicomFileAttributeReader {
             fmi = dis.readFileMetaInformation();
             attributes = dis.readDataset();
         }
-
-        Object pixeldata = attributes.getValue(Tag.PixelData);
-        String modality = attributes.getString(Tag.Modality, 0);  // test remove
+        
         att.setDataSet(attributes);
         att.readAttributes();
-        //dicomAttributes.printDataset();
     }
     
     /**

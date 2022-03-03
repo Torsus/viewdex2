@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.media.jai.PlanarImage;
-import org.dcm4che3.data.Attributes;
 import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
 
 /**
@@ -36,7 +35,6 @@ public class DicomFileImageReader {
             DicomImageReadParam param = (DicomImageReadParam) reader.getDefaultReadParam();
             ImageInputStream iis = ImageIO.createImageInputStream(file);
             reader.setInput(iis, false);
-            //Returns a new Raster (rectangular array of pixels) containing the raw pixel data from the image stream
             raster = reader.readRaster(imgcnt, param);
             numberOfImages = reader.getNumImages(true);
             if (raster == null) {
@@ -49,13 +47,8 @@ public class DicomFileImageReader {
         }
         
         return raster;
-        
-        //return createPlanarImage(raster);
-        //return get16bitBuffImage(raster);
     }
     
-   
-
     public static BufferedImage get16bitBuffImage(Raster raster) {
         short[] pixels = ((DataBufferUShort) raster.getDataBuffer()).getData();
         ColorModel colorModel = new ComponentColorModel(

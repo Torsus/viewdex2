@@ -74,7 +74,7 @@ public class BufferedImageFactory {
      * setTransformStatus
      * @param imageStat 
      */
-    public void setTransformStatus(int[][] imageStat){
+    public void setImageStat(int[][] imageStat){
         this.imageStat = imageStat;
     }
     

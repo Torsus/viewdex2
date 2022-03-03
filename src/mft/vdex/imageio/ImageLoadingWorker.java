@@ -261,8 +261,10 @@ public class ImageLoadingWorker extends SwingWorker<ArrayList<StudyDbImageNode>,
         String patientId = studyLoader.attributeReader.att.getPatientID();
         String modality = studyLoader.attributeReader.att.getModality();
         Attributes dataset = studyLoader.attributeReader.getAttributes();
-        int[] windowWidth = studyLoader.attributeReader.att.getWindowWidth_int_array();
-        int[] windowCenter = studyLoader.attributeReader.att.getWindowCenter_int_array();
+        //int[] windowWidth = studyLoader.attributeReader.att.getWindowWidth_int_array();
+        //int[] windowCenter = studyLoader.attributeReader.att.getWindowCenter_int_array();
+        int[] windowWidth = studyLoader.getWindowWidth();
+        int[] windowCenter = studyLoader.getWindowCenter();
         int bitsStored = studyLoader.attributeReader.att.getBitsStored();
         int bitsAllocated = studyLoader.attributeReader.att.getBitsAllocated();
         int rows = studyLoader.attributeReader.att.getRows();

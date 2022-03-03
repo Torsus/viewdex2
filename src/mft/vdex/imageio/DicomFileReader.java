@@ -40,18 +40,13 @@ public class DicomFileReader {
     byte[] lutR16, lutG16, lutB16;
 
     // dicom tags
-    private String photometricInterpretation;
-    private String modality;
     private org.dcm4che3.data.Attributes attributes;
 
     // Dicom Data Element Tags
-    private int bitsStored;
-    private short[] lutDescriptor;              // LUT Descriptor        (0028,3002)
-    private double rescaleIntercept;            // Rescale Intercept     (0028,1052)
-    private int[] windowWidth;                  // Window Width          (0028.1051)
-    private int[] windowCenter;                 // Window Center         (0028.1050)
-    private double[] windowWidthFloat;          // Window Width          (0028.1051)
-    private double[] windowCenterFloat;         // Window Center         (0028.1050)
+    //private short[] lutDescriptor;              // LUT Descriptor        (0028,3002)
+    //private double rescaleIntercept;            // Rescale Intercept     (0028,1052)
+    //private int[] windowWidth;                  // Window Width          (0028.1051)
+    //private int[] windowCenter;                 // Window Center         (0028.1050)
     private int[] windowWidth_t;
     private int[] windowCenter_t;
 
@@ -164,19 +159,12 @@ public class DicomFileReader {
                 setWindowCenterValueFloatStatus(attributeReader.att.getWindowCenter_str());
 
                 // Used by setTransformStatus() ----> need to be fixed
-                windowWidthFloat = attributeReader.att.getWindowWidth_double_array();
-                windowCenterFloat = attributeReader.att.getWindowCenter_double_array();
-                photometricInterpretation = attributeReader.att.getPhotoMetricInterpretation();
-                modality = attributeReader.att.getModality();
-                bitsStored = attributeReader.att.getBitsStoredValue();
-                rescaleIntercept = attributeReader.att.getRescaleInterceptValue();
-                lutDescriptor = attributeReader.att.getLutDescriptorValue();
-                windowWidth = attributeReader.att.getWindowWidth_int_array();
-                windowCenter = attributeReader.att.getWindowCenter_int_array();
+                //windowWidth = attributeReader.att.getWindowWidth_int_array();
+                //windowCenter = attributeReader.att.getWindowCenter_int_array();
 
                 setWWWCStatus();
                 setTransformStatus();
-                bufferedImageFactory.setTransformStatus(imageStat);
+                //bufferedImageFactory.setImageStat(imageStat);  // Is this ok?
                 PlanarImage planarImage = createPlanarImage(raster);
                 planarImage_transformed = transformPlanarImage(planarImage);
             } catch (IOException e) {
@@ -198,6 +186,7 @@ public class DicomFileReader {
      */
     PlanarImage createPlanarImage(Raster raster) {
         PlanarImage imgPlanar = null;
+        String photometricInterpretation = attributeReader.att.getPhotoMetricInterpretation();
 
         if (attributeReader.att.getPixelRepresentation() == 0
                 && attributeReader.att.getBitsAllocatedValue() == 16) {
@@ -247,11 +236,11 @@ public class DicomFileReader {
      */
     private void setWWWCStatus() {
         wlMultipleValuesExist = false;
-        int[] windowWidth_l = attributeReader.att.getWindowWidth_int_array();
-        int[] windowCenter_l = attributeReader.att.getWindowCenter_int_array();
+        int[] windowWidth = attributeReader.att.getWindowWidth_int_array();
+        int[] windowCenter = attributeReader.att.getWindowCenter_int_array();
 
-        if (windowWidth_l != null && windowCenter_l != null
-                && windowWidth_l.length > 1 && windowCenter_l.length > 1) {
+        if (windowWidth != null && windowCenter != null
+                && windowWidth.length > 1 && windowCenter.length > 1) {
             wlMultipleValuesExist = true;
         }
     }
@@ -270,15 +259,15 @@ public class DicomFileReader {
      * Identity Windows setting defined by Bits stored.
      */
     private void setTransformStatus() {
-        int[] windowWidth_l = attributeReader.att.getWindowWidth_int_array();
-        int[] windowCenter_l = attributeReader.att.getWindowCenter_int_array();
-        String modalityLUTSequence_l = attributeReader.att.getModalityLUTSequenceString();
-        short[] lutDescriptor_l = attributeReader.att.getLutDescriptorValue();
-        int modalityLUTType_l = 0;
-        short[] lutData_l = attributeReader.att.getLUTDataValue();
-        double rescaleIntercept_l = attributeReader.att.getRescaleInterceptValue();
-        double rescaleSlope_l = attributeReader.att.getRescaleSlopeValue();
-        String voiLUTSequence_l = attributeReader.att.getVOILUTSequenceValue();
+        int[] windowWidth = attributeReader.att.getWindowWidth_int_array();
+        int[] windowCenter = attributeReader.att.getWindowCenter_int_array();
+        String modalityLUTSequence = attributeReader.att.getModalityLUTSequenceString();
+        short[] lutDescriptor = attributeReader.att.getLutDescriptorValue();
+        int modalityLUTType = 0;
+        short[] lutData = attributeReader.att.getLUTDataValue();
+        double rescaleIntercept = attributeReader.att.getRescaleInterceptValue();
+        double rescaleSlope = attributeReader.att.getRescaleSlopeValue();
+        String voiLUTSequence = attributeReader.att.getVOILUTSequenceValue();
 
         modalityLUTSequenceStatus = false;
         modalityLUTRescaleStatus = false;
@@ -288,29 +277,29 @@ public class DicomFileReader {
         windowCenterOffsetStatus = false;
 
         // modalityLUTSequence   NOT TESTED
-        if (modalityLUTSequence_l != null
-                && lutDescriptor_l != null
-                && modalityLUTType_l != Integer.MIN_VALUE
-                && lutData_l != null) {
+        if (modalityLUTSequence != null
+                && lutDescriptor != null
+                && modalityLUTType != Integer.MIN_VALUE
+                && lutData != null) {
             modalityLUTSequenceStatus = true;
         }
 
         // rescaleIntercept
         // fix 2014-04-28
-        if ((rescaleIntercept_l == 0.0) && (rescaleSlope_l == 1.0)) {
-            rescaleIntercept_l = Double.MIN_VALUE;
-            rescaleSlope_l = Double.MIN_VALUE;
+        if ((rescaleIntercept == 0.0) && (rescaleSlope == 1.0)) {
+            rescaleIntercept = Double.MIN_VALUE;
+            rescaleSlope = Double.MIN_VALUE;
         }
 
-        if (rescaleIntercept_l != Double.MIN_VALUE
-                && rescaleSlope_l != Double.MIN_VALUE) {
+        if (rescaleIntercept != Double.MIN_VALUE
+                && rescaleSlope != Double.MIN_VALUE) {
             modalityLUTRescaleStatus = true;
         }
 
         // VOILUTSequence
-        if (voiLUTSequence_l != null
-                && lutDescriptor_l != null
-                && lutData_l != null) {
+        if (voiLUTSequence != null
+                && lutDescriptor != null
+                && lutData != null) {
             voiLUTSequenceStatus = true;
         }
 
@@ -319,8 +308,8 @@ public class DicomFileReader {
         //      windowWidth[0] != Integer.MIN_VALUE){
         //voiLUTCenterWidthStatus = true;
         //}
-        if (windowCenter_l != null && windowCenter_l[0] != Integer.MIN_VALUE
-                && windowWidth_l != null && windowWidth_l[0] != Integer.MIN_VALUE) {
+        if (windowCenter != null && windowCenter[0] != Integer.MIN_VALUE
+                && windowWidth != null && windowWidth[0] != Integer.MIN_VALUE) {
             voiLUTWindowCenterWindowWidthExist = true;
         }
 
@@ -344,9 +333,17 @@ public class DicomFileReader {
      */
     private PlanarImage transformPlanarImage(PlanarImage imgPlanar) {
         PlanarImage pi = imgPlanar;
-        boolean identity = false;
+        //boolean identity = false;
         double[][] stat;
         double min, max;
+        int [] windowWidth = attributeReader.att.getWindowWidth_int_array();
+        int [] windowCenter = attributeReader.att.getWindowCenter_int_array();
+        double[] windowWidthFloat = attributeReader.att.getWindowWidth_double_array();
+        double[] windowCenterFloat = attributeReader.att.getWindowCenter_double_array();
+        String photometricInterpretation = attributeReader.att.getPhotoMetricInterpretation();
+        int bitsStored = attributeReader.att.getBitsStoredValue();
+        double rescaleIntercept = attributeReader.att.getRescaleInterceptValue();
+        short[] lutDescriptor = attributeReader.att.getLutDescriptorValue();
 
         stat = computeExtrema(pi, null);
         min = stat[0][0];
@@ -429,8 +426,7 @@ public class DicomFileReader {
         // The dcm4che library does't read Rescale Slope! Obsolete.
         //
         if (voiLUTWindowCenterWindowWidthExist) {
-            //if (modality.equalsIgnoreCase("MR") && windowCenterFloatValueExist) {
-            if (modality.equalsIgnoreCase("MR")
+            if (attributeReader.att.getModality().equalsIgnoreCase("MR")
                     && windowWidthFloat[0] == 1
                     && windowCenterFloat[0] == 0.5
                     && rescaleIntercept == Double.MIN_VALUE) //&& rescaleSlope != 0)
@@ -462,8 +458,8 @@ public class DicomFileReader {
         // Fix for images "angelica/MR-bilder/Snittbilder/IM_0068.dcm - IM_00_0102.dcm",
         // where WC/WW is 5008/8706 
         if (voiLUTWindowCenterWindowWidthExist) {
-            if ((modality.equalsIgnoreCase("MR")
-                    || modality.equalsIgnoreCase("XA"))
+            if ((attributeReader.att.getModality().equalsIgnoreCase("MR")
+                    || attributeReader.att.getModality().equalsIgnoreCase("XA"))
                     && photometricInterpretation.equalsIgnoreCase("RGB")) {
                 //windowWidth_t[0] = imageStats[0][6];
                 //windowCenter_t[0] = imageStats[0][6] / 2;
@@ -658,7 +654,23 @@ public class DicomFileReader {
     public Attributes getAttributes() {
         return attributes;
     }
+    
+    /**
+     * getWindowWidth
+     * @return 
+     */
+    public int[] getWindowWidth() {
+        return windowWidth_t;
+    }
 
+    /**
+     * getWindowCenter
+     * @return 
+     */
+    public int[] getWindowCenter() {
+        return windowCenter_t;
+    }
+    
     /**
      * getWLMultipleValuesExist
      * @return 
