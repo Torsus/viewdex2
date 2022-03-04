@@ -41,12 +41,6 @@ public class DicomFileReader {
 
     // dicom tags
     private org.dcm4che3.data.Attributes attributes;
-
-    // Dicom Data Element Tags
-    //private short[] lutDescriptor;              // LUT Descriptor        (0028,3002)
-    //private double rescaleIntercept;            // Rescale Intercept     (0028,1052)
-    //private int[] windowWidth;                  // Window Width          (0028.1051)
-    //private int[] windowCenter;                 // Window Center         (0028.1050)
     private int[] windowWidth_t;
     private int[] windowCenter_t;
 
@@ -110,6 +104,7 @@ public class DicomFileReader {
 
     /**
      * loadImage
+     *
      * @param fpath
      * @param stackType
      * @param imageCnt
@@ -126,7 +121,7 @@ public class DicomFileReader {
                 // To be deleted
                 //msecs = System.currentTimeMillis();
                 //startTime = System.nanoTime();
-                
+
                 attributeReader.readAttributes(fpath);
                 attributes = attributeReader.getAttributes();
                 raster = dicomFileImageBufferReader.readFileImageRaster(fpath, imageCnt);
@@ -153,7 +148,6 @@ public class DicomFileReader {
                 int aa = 10;
                  */
                 //System.out.println("Time loadImage 11: " + ((System.nanoTime() - startTime)) / 1000000);
-                
                 setWindowCenterValueFloatStatus(attributeReader.att.getWindowCenter_str());
                 setWWWCStatus();
                 setTransformStatus();
@@ -179,46 +173,47 @@ public class DicomFileReader {
      */
     PlanarImage createPlanarImage(Raster raster) {
         PlanarImage imgPlanar = null;
-        
+
         // To be deleted
         String PhotometricInterpretation_t = attributeReader.att.getPhotoMetricInterpretation();
         int PixelRepresentation_t = attributeReader.att.getPixelRepresentation();
         int BitsAllocated_t = attributeReader.att.getBitsAllocatedValue();
 
-        if (attributeReader.att.getPixelRepresentation() == 0
-                && attributeReader.att.getBitsAllocatedValue() == 16) {
-            //BufferedImage imgBuffered3 = imageMod4b(imgBuffered);
-            BufferedImage bi = bufferedImageFactory.get16bitBuffImage(raster);
-            imgPlanar = PlanarImage.wrapRenderedImage(bi);
-        }
-        if (attributeReader.att.getPixelRepresentation() == 0
-                && attributeReader.att.getBitsAllocatedValue() == 8
-                && !attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
-            //BufferedImage imgBuf8 = imageMod8Bit(imgBuffered);
-            BufferedImage bi = bufferedImageFactory.get8bitBuffImage(raster);
-            //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
-            imgPlanar = PlanarImage.wrapRenderedImage((RenderedImage) bi);
-        }
-        
         if (attributeReader.att.getPixelRepresentation() == 1
                 && attributeReader.att.getBitsAllocatedValue() == 16) {
-            //org BufferedImage imgBuffered3 = bufferedImageFactory.imageMod4b(imgBuffered);
-            //org imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered3);
-            BufferedImage bi = bufferedImageFactory.get16bitBuffImage(raster);
+            BufferedImage bi = bufferedImageFactory.get16bitBuffImage2(raster, getImageStats(),
+                    attributeReader.att.getBitsAllocatedValue());
             imgPlanar = PlanarImage.wrapRenderedImage(bi);
-        }
-        
-        if (attributeReader.att.getPixelRepresentation() == 1
-                && attributeReader.att.getBitsAllocatedValue() == 12) {
-            BufferedImage imgBuffered4 = bufferedImageFactory.imageMod3(imgBuffered);
-            imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered4);
-        }
-        if (attributeReader.att.getPixelRepresentation() == 0
-                && attributeReader.att.getBitsAllocatedValue() == 8
-                && attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")){
-            //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
-            imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered);
-            //imageTestplanarImage(imgPlanar); // testzzz 201804330
+        } else {
+            if (attributeReader.att.getPixelRepresentation() == 0
+                    && attributeReader.att.getBitsAllocatedValue() == 16) {
+                //BufferedImage imgBuffered3 = imageMod4b(imgBuffered);
+                BufferedImage bi = bufferedImageFactory.get16bitBuffImage(raster);
+                imgPlanar = PlanarImage.wrapRenderedImage(bi);
+            } else {
+                if (attributeReader.att.getPixelRepresentation() == 0
+                        && attributeReader.att.getBitsAllocatedValue() == 8
+                        && !attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
+                    //BufferedImage imgBuf8 = imageMod8Bit(imgBuffered);
+                    BufferedImage bi = bufferedImageFactory.get8bitBuffImage(raster);
+                    //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
+                    imgPlanar = PlanarImage.wrapRenderedImage((RenderedImage) bi);
+                } else {
+                    if (attributeReader.att.getPixelRepresentation() == 1
+                            && attributeReader.att.getBitsAllocatedValue() == 12) {
+                        BufferedImage imgBuffered4 = bufferedImageFactory.imageMod3(imgBuffered);
+                        imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered4);
+                    } else {
+                        if (attributeReader.att.getPixelRepresentation() == 0
+                                && attributeReader.att.getBitsAllocatedValue() == 8
+                                && attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
+                            //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
+                            imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered);
+                            //imageTestplanarImage(imgPlanar); // testzzz 201804330
+                        }
+                    }
+                }
+            }
         }
         return imgPlanar;
     }
@@ -336,8 +331,8 @@ public class DicomFileReader {
         //boolean identity = false;
         double[][] stat;
         double min, max;
-        int [] windowWidth = attributeReader.att.getWindowWidth_int_array();
-        int [] windowCenter = attributeReader.att.getWindowCenter_int_array();
+        int[] windowWidth = attributeReader.att.getWindowWidth_int_array();
+        int[] windowCenter = attributeReader.att.getWindowCenter_int_array();
         double[] windowWidthFloat = attributeReader.att.getWindowWidth_double_array();
         double[] windowCenterFloat = attributeReader.att.getWindowCenter_double_array();
         String photometricInterpretation = attributeReader.att.getPhotoMetricInterpretation();
@@ -649,15 +644,17 @@ public class DicomFileReader {
 
     /**
      * getAttributes
+     *
      * @return attributes
      */
     public Attributes getAttributes() {
         return attributes;
     }
-    
+
     /**
      * getWindowWidth
-     * @return 
+     *
+     * @return
      */
     public int[] getWindowWidth() {
         return windowWidth_t;
@@ -665,15 +662,17 @@ public class DicomFileReader {
 
     /**
      * getWindowCenter
-     * @return 
+     *
+     * @return
      */
     public int[] getWindowCenter() {
         return windowCenter_t;
     }
-    
+
     /**
      * getWLMultipleValuesExist
-     * @return 
+     *
+     * @return
      */
     public boolean getWLMultipleValuesExist() {
         return wlMultipleValuesExist;
@@ -681,6 +680,7 @@ public class DicomFileReader {
 
     /**
      * getLoadedPlanarImage
+     *
      * @return imgPlanar20
      */
     public PlanarImage getLoadedPlanarImage() {
@@ -689,6 +689,7 @@ public class DicomFileReader {
 
     /**
      * getModalityLUTSequenceStatus
+     *
      * @return modalityLUTSequenceStatus
      */
     public boolean getModalityLUTSequenceStatus() {
@@ -697,7 +698,8 @@ public class DicomFileReader {
 
     /**
      * getVoiLUTSequenceStatus
-     * @return 
+     *
+     * @return
      */
     public boolean getVoiLUTSequenceStatus() {
         return voiLUTSequenceStatus;
@@ -705,7 +707,8 @@ public class DicomFileReader {
 
     /**
      * getRescaleSlopeInterceptStatus
-     * @return 
+     *
+     * @return
      */
     public boolean getRescaleSlopeInterceptStatus() {
         return modalityLUTRescaleStatus;
@@ -713,7 +716,8 @@ public class DicomFileReader {
 
     /**
      * getCenterWidthStatus
-     * @return 
+     *
+     * @return
      */
     public boolean getCenterWidthStatus() {
         return voiLUTWindowCenterWindowWidthExist;
@@ -721,7 +725,8 @@ public class DicomFileReader {
 
     /**
      * getIdentityStatus
-     * @return 
+     *
+     * @return
      */
     public boolean getIdentityStatus() {
         return identityStatus;
@@ -729,7 +734,8 @@ public class DicomFileReader {
 
     /**
      * getWindowCenterOffsetStatus
-     * @return 
+     *
+     * @return
      */
     public boolean getWindowCenterOffsetStatus() {
         return windowCenterOffsetStatus;
@@ -737,6 +743,7 @@ public class DicomFileReader {
 
     /**
      * setImageStats
+     *
      * @param stats
      */
     private void setImageStats(int[][] stats) {
@@ -745,6 +752,7 @@ public class DicomFileReader {
 
     /**
      * getImageStats
+     *
      * @return imageStats
      */
     public int[][] getImageStats() {
@@ -752,16 +760,14 @@ public class DicomFileReader {
     }
 
     /**
-     * Fix for MR images like the following or alike
-     * 0028,1050 Window Center: 0.5
-     * 0028,1051 Window Width: 1
-     * 0028,1052 Rescale Intercept: 0
-     * 0028,1053 Rescale Slope: 0,00024... 1/4096
-     * Obsolete remove?
-     * windowCenterFloatValueExist = imageLoader.getWindowCenterFloatValueExist();
-     * new implementation
-     * Find out if windowCenter value is typed as a float value.
-     * @param str 
+     * Fix for MR images like the following or alike 0028,1050 Window Center:
+     * 0.5 0028,1051 Window Width: 1 0028,1052 Rescale Intercept: 0 0028,1053
+     * Rescale Slope: 0,00024... 1/4096 Obsolete remove?
+     * windowCenterFloatValueExist =
+     * imageLoader.getWindowCenterFloatValueExist(); new implementation Find out
+     * if windowCenter value is typed as a float value.
+     *
+     * @param str
      */
     public void setWindowCenterValueFloatStatus(String str) {
         float[] buf = null;

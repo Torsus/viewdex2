@@ -79,6 +79,9 @@ public class BufferedImageFactory {
     }
     
     /**
+     * Called for images having the following attributes
+     * BitsAllocatd = 16
+     * PixelRepresantation = 0
      * Create BufferedImage object from 16 bit Raster
      * @param raster
      * @return
@@ -105,6 +108,10 @@ public class BufferedImageFactory {
     }
 
     /**
+     * Called for images having the following attributes
+     * Photometric Interpretation = !RGB
+     * BitsAllocatd = 8
+     * PixelRepresantation = 0
      * Create BufferedImage object from 8 bit Raster
      * @param raster
      * @return BufferedImage
@@ -152,13 +159,119 @@ public class BufferedImageFactory {
                 null);
         return new BufferedImage(colorModel, outRaster, false, null);
     }
+    
+    /**
+     * Called for images having the following attributes
+     * Photometric Interpretation = MONOCHROME2
+     * BitsAllocatd = 16
+     * PixelRepresantation = 1
+     * Create BufferedImage object from 16 bit Raster
+     * @param raster
+     * @return BufferedImage
+     */
+    public BufferedImage get16bitBuffImage2(Raster raster, int[][] is, int bitstored) {
+        int bitsStored = bitstored;
+        int[][] imageStats = is;
+        //short[] pixels = ((DataBufferUShort) raster.getDataBuffer()).getData();
+        short[] data = ((DataBufferUShort) raster.getDataBuffer()).getData();
+        int height = raster.getHeight();
+        int width = raster.getWidth();
+        int size = raster.getDataBuffer().getSize();
+        int nDataElements = raster.getNumDataElements();
+        SampleModel sm = raster.getSampleModel();
+        DataBuffer db1 = raster.getDataBuffer();
+        //short[] data = ((DataBufferUShort) db).getData();
+        int totalPix = width * height;
+         int paddingValue = Integer.MIN_VALUE;
+        int paddingValue2 = Integer.MIN_VALUE;
+
+        // bitStored = 12  -> mask1 = 0x800 (2048)
+        // bitStored = 16  -> mask1 = 0x8000 (32768)
+        int mask1 = 1 << bitsStored - 1;
+        imageStats[0][7] = mask1;
+
+        // bitStored = 12  -> mask25 = 0x7ff (2047)
+        // bitStored = 16  -> mask25 = 0x7fff (32767)
+        int mask2 = -1 >>> (32 - bitsStored + 1);
+        
+        // Find the bits that have a 1 in the sign bit.
+        int neg_max = Integer.MIN_VALUE;
+        int neg_min = Integer.MAX_VALUE;
+        short[] data2 = new short[totalPix];
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == paddingValue) {
+                data[i] = Short.MIN_VALUE;
+            }
+            int v = data[i] & mask1;
+            if (v == mask1) {
+                data2[i] = (short) (data[i] & mask2);
+                if (data2[i] > neg_max) {
+                    neg_max = data2[i];
+                }
+                if (data2[i] < neg_min) {
+                    neg_min = data2[i];
+                }
+            }
+        }
+        
+        int pos_max = Integer.MIN_VALUE;
+        int pos_min = Integer.MAX_VALUE;
+        short[] data3 = new short[totalPix];
+        short[] data4 = new short[totalPix];
+        for (int i = 0; i < data.length; i++) {
+            int v = data[i] & mask1;
+            if (v != mask1) {
+                int val = data[i] & mask2;
+                if (val > pos_max) {
+                    pos_max = val;
+                }
+                if (val < pos_min) {
+                    pos_min = val;
+                }
+                //data2[i] = (short) (val + max + 1);
+                //data2[i] = (short) (val + (neg_max - neg_min) + 1);
+                //data2[i] = (short) (val + neg_max);   //ppp
+                data2[i] = (short) ((val) + mask1);
+            }
+        }
+        //printPixelValuesShort(data2);
+        
+        // new
+        short[] data5 = new short[width * height];
+        for (int i = 0; i < data2.length; i++) {
+            //data5[i] = (short) ((data2[i] * rescaleSlope) + rescaleIntercept);
+            data5[i] = (short) (data2[i]);
+        }
+
+        // Create a new RGB databuffer
+        short[] dataRGB = new short[width * height * 3];
+
+        for (int i = 0; i < data5.length; i++) {
+            dataRGB[i * 3] = (short) (data5[i]);
+            dataRGB[(i * 3) + 1] = (short) (data5[i]);
+            //dataRGB[(i*3+2)] = (short) (data5[i]);
+        }
+         
+        imageStats[0][7] = mask1;
+        DataBufferUShort short_db = new DataBufferUShort(dataRGB, dataRGB.length);
+        int[] bandOffsets = new int[1];
+        WritableRaster wr2 = Raster.createInterleavedRaster(short_db, width, height,
+                (width* 3), 3, bandOffsets, new Point());
+        IndexColorModel icm2 = new IndexColorModel(16, 65535, lutR16, lutG16, lutB16);
+        BufferedImage imgBuffered = new BufferedImage(icm2, wr2, false, null);
+
+        return imgBuffered;
+    }
+    
+    //============================================================================================================
+    //  Old methods To be deleted
+    //=========================================================================================================
 
     /**
-     * imageMod4
      * @param img
      * @return imgBuffered
      */
-    private BufferedImage imageMod4(BufferedImage img) {
+    private BufferedImage imageMod4bxxxx(BufferedImage img) {
         int bitsStored = attributeReader.att.getBitsStoredValue();
         
         SampleModel sm = img.getSampleModel();
