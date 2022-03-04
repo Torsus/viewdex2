@@ -443,7 +443,7 @@ public class BufferedImageFactory {
 
         return imgBuffered;
     }
-
+    
     /**
      * Test code. RSNA99 Testplan Phase 1, test11. 12 in 16 NO production code.
      * Status: works

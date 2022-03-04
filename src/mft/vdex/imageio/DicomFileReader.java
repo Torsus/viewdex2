@@ -123,18 +123,16 @@ public class DicomFileReader {
         if (fpath.getName().endsWith(filterExtension[0])
                 || fpath.getName().endsWith(filterExtension[1])) {
             try {
+                // To be deleted
                 //msecs = System.currentTimeMillis();
                 //startTime = System.nanoTime();
-                //ImageLoaderDICOM imageLoader = new ImageLoaderDICOM();
-                //imageLoader = new ImageLoaderDICOM();
-
-                //DicomFileReader dicomFileReader;
-                //dicomFileReader = new DicomFileReader();
+                
                 attributeReader.readAttributes(fpath);
                 attributes = attributeReader.getAttributes();
                 raster = dicomFileImageBufferReader.readFileImageRaster(fpath, imageCnt);
                 bufferedImageFactory.setAttributeReader(attributeReader);
 
+                // To be deleted
                 //imgBuffered = bufferedImageFactory.get16bitBuffImage(raster);
                 //imgBuffered = dicomFileImageDataReader.readImageFromDicomInputStream(fpath);
                 //imgBuffered = dicomFileImageDataReader2.readAsDicomImage(fpath, 1);
@@ -157,11 +155,6 @@ public class DicomFileReader {
                 //System.out.println("Time loadImage 11: " + ((System.nanoTime() - startTime)) / 1000000);
                 
                 setWindowCenterValueFloatStatus(attributeReader.att.getWindowCenter_str());
-
-                // Used by setTransformStatus() ----> need to be fixed
-                //windowWidth = attributeReader.att.getWindowWidth_int_array();
-                //windowCenter = attributeReader.att.getWindowCenter_int_array();
-
                 setWWWCStatus();
                 setTransformStatus();
                 //bufferedImageFactory.setImageStat(imageStat);  // Is this ok?
@@ -186,7 +179,11 @@ public class DicomFileReader {
      */
     PlanarImage createPlanarImage(Raster raster) {
         PlanarImage imgPlanar = null;
-        String photometricInterpretation = attributeReader.att.getPhotoMetricInterpretation();
+        
+        // To be deleted
+        String PhotometricInterpretation_t = attributeReader.att.getPhotoMetricInterpretation();
+        int PixelRepresentation_t = attributeReader.att.getPixelRepresentation();
+        int BitsAllocated_t = attributeReader.att.getBitsAllocatedValue();
 
         if (attributeReader.att.getPixelRepresentation() == 0
                 && attributeReader.att.getBitsAllocatedValue() == 16) {
@@ -196,18 +193,21 @@ public class DicomFileReader {
         }
         if (attributeReader.att.getPixelRepresentation() == 0
                 && attributeReader.att.getBitsAllocatedValue() == 8
-                && !photometricInterpretation.equalsIgnoreCase("RGB")) {
+                && !attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
             //BufferedImage imgBuf8 = imageMod8Bit(imgBuffered);
             BufferedImage bi = bufferedImageFactory.get8bitBuffImage(raster);
             //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
             imgPlanar = PlanarImage.wrapRenderedImage((RenderedImage) bi);
         }
-        // NOT TESTED
+        
         if (attributeReader.att.getPixelRepresentation() == 1
                 && attributeReader.att.getBitsAllocatedValue() == 16) {
-            BufferedImage imgBuffered3 = bufferedImageFactory.imageMod4b(imgBuffered);
-            imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered3);
+            //org BufferedImage imgBuffered3 = bufferedImageFactory.imageMod4b(imgBuffered);
+            //org imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered3);
+            BufferedImage bi = bufferedImageFactory.get16bitBuffImage(raster);
+            imgPlanar = PlanarImage.wrapRenderedImage(bi);
         }
+        
         if (attributeReader.att.getPixelRepresentation() == 1
                 && attributeReader.att.getBitsAllocatedValue() == 12) {
             BufferedImage imgBuffered4 = bufferedImageFactory.imageMod3(imgBuffered);
@@ -215,7 +215,7 @@ public class DicomFileReader {
         }
         if (attributeReader.att.getPixelRepresentation() == 0
                 && attributeReader.att.getBitsAllocatedValue() == 8
-                && photometricInterpretation.equalsIgnoreCase("RGB")) {
+                && attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")){
             //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
             imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered);
             //imageTestplanarImage(imgPlanar); // testzzz 201804330
