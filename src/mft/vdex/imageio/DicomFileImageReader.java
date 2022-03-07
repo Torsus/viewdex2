@@ -10,6 +10,7 @@ import java.awt.image.DataBufferUShort;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -25,9 +26,15 @@ public class DicomFileImageReader {
     PlanarImage imgPlanar;
     int numberOfImages;
 
+    /**
+     * readFileImageRaster
+     * @param file
+     * @param imgcnt
+     * @return 
+     */
     public Raster readFileImageRaster(File file, int imgcnt) {
         Raster raster = null;
-        System.out.println("DicomFileImageBufferReader.readFileImageRaster " + file.getName());
+        //System.out.println("DicomFileImageBufferReader.readFileImageRaster " + file.getName());
 
         try {
             Iterator iter = ImageIO.getImageReadersByFormatName("DICOM");
@@ -41,7 +48,7 @@ public class DicomFileImageReader {
                 System.out.println("Error: couldn't read Dicom image!");
             }
             iis.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error: couldn't read dicom image! " + e.getMessage());
             e.printStackTrace();
         }
@@ -49,6 +56,11 @@ public class DicomFileImageReader {
         return raster;
     }
     
+    /**
+     * get16bitBuffImage
+     * @param raster
+     * @return BufferedImage
+     */
     public static BufferedImage get16bitBuffImage(Raster raster) {
         short[] pixels = ((DataBufferUShort) raster.getDataBuffer()).getData();
         ColorModel colorModel = new ComponentColorModel(

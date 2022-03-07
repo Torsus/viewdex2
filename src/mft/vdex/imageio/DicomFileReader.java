@@ -21,10 +21,9 @@ import org.dcm4che3.data.Attributes;
  * @author sune
  */
 /**
- * The <code>DicomFileReader</code> class read DICOM image files. Read
- * Attributes and pixel data. Convert if needed the <code>BufferedImage</code>
- * image object for use to internal data structures. Set up image rendering
- * parameters.
+ * The <code>DicomFileReader</code> read DICOM image file attributes
+ * and pixel data. Convert if needed the <code>BufferedImage</code> object
+ * for use by internal data structures. Set up parameters for image rendering.
  */
 public class DicomFileReader {
 
@@ -56,8 +55,6 @@ public class DicomFileReader {
     long msecs, startTime;
     private boolean wlMultipleValuesExist = false;
     public DicomFileAttributeReader attributeReader = null;
-    DicomFileImageDataReader dicomFileImageDataReader = null;
-    DicomFileImageDataReader2 dicomFileImageDataReader2 = null;
     DicomFileImageReader dicomFileImageBufferReader = null;
     BufferedImageFactory bufferedImageFactory = null;
 
@@ -67,8 +64,6 @@ public class DicomFileReader {
     public DicomFileReader() {
         initLookupTables();
         attributeReader = new DicomFileAttributeReader();
-        dicomFileImageDataReader = new DicomFileImageDataReader();
-        dicomFileImageDataReader2 = new DicomFileImageDataReader2();
         dicomFileImageBufferReader = new DicomFileImageReader();
         bufferedImageFactory = new BufferedImageFactory();
     }
@@ -104,7 +99,6 @@ public class DicomFileReader {
 
     /**
      * loadImage
-     *
      * @param fpath
      * @param stackType
      * @param imageCnt
@@ -118,40 +112,18 @@ public class DicomFileReader {
         if (fpath.getName().endsWith(filterExtension[0])
                 || fpath.getName().endsWith(filterExtension[1])) {
             try {
-                // To be deleted
                 //msecs = System.currentTimeMillis();
                 //startTime = System.nanoTime();
-
+                
                 attributeReader.readAttributes(fpath);
                 attributes = attributeReader.getAttributes();
                 raster = dicomFileImageBufferReader.readFileImageRaster(fpath, imageCnt);
                 bufferedImageFactory.setAttributeReader(attributeReader);
-
-                // To be deleted
-                //imgBuffered = bufferedImageFactory.get16bitBuffImage(raster);
-                //imgBuffered = dicomFileImageDataReader.readImageFromDicomInputStream(fpath);
-                //imgBuffered = dicomFileImageDataReader2.readAsDicomImage(fpath, 1);
-                //System.out.println("DicomFileReader.loadImage readImageFromDicomInputStream 1 :" + imgBuffered.toString());
-                //System.out.println("DicomFileReader.loadImage Object size(1) 1: " + ObjectSizeCalculator.getObjectSize(imgBuffered));
-                /*
-                SampleModel sm = imgBuffered.getSampleModel();
-                WritableRaster wr = imgBuffered.getRaster();
-                DataBuffer db = wr.getDataBuffer();
-                ColorModel cm = imgBuffered.getColorModel();
-                //short[] data = ((DataBufferUShort) db).getData();
-                short[] data_b = ((DataBufferUShort) db).getData();
-                int paddingValue = Integer.MIN_VALUE;
-                int paddingValue2 = Integer.MIN_VALUE;
-                int width = imgBuffered.getWidth();
-                int height = imgBuffered.getHeight();
-                int totalPix = width * height;
-                int aa = 10;
-                 */
-                //System.out.println("Time loadImage 11: " + ((System.nanoTime() - startTime)) / 1000000);
+                
+                //System.out.println("Time to loadImage : " + ((System.nanoTime() - startTime)) / 1000000);
                 setWindowCenterValueFloatStatus(attributeReader.att.getWindowCenter_str());
                 setWWWCStatus();
                 setTransformStatus();
-                //bufferedImageFactory.setImageStat(imageStat);  // Is this ok?
                 PlanarImage planarImage = createPlanarImage(raster);
                 planarImage_transformed = transformPlanarImage(planarImage);
             } catch (IOException e) {
@@ -173,12 +145,7 @@ public class DicomFileReader {
      */
     PlanarImage createPlanarImage(Raster raster) {
         PlanarImage imgPlanar = null;
-
-        // To be deleted
-        String PhotometricInterpretation_t = attributeReader.att.getPhotoMetricInterpretation();
-        int PixelRepresentation_t = attributeReader.att.getPixelRepresentation();
-        int BitsAllocated_t = attributeReader.att.getBitsAllocatedValue();
-
+        
         if (attributeReader.att.getPixelRepresentation() == 1
                 && attributeReader.att.getBitsAllocatedValue() == 16) {
             BufferedImage bi = bufferedImageFactory.get16bitBuffImage2(raster, getImageStats(),
@@ -187,16 +154,13 @@ public class DicomFileReader {
         } else {
             if (attributeReader.att.getPixelRepresentation() == 0
                     && attributeReader.att.getBitsAllocatedValue() == 16) {
-                //BufferedImage imgBuffered3 = imageMod4b(imgBuffered);
                 BufferedImage bi = bufferedImageFactory.get16bitBuffImage(raster);
                 imgPlanar = PlanarImage.wrapRenderedImage(bi);
             } else {
                 if (attributeReader.att.getPixelRepresentation() == 0
                         && attributeReader.att.getBitsAllocatedValue() == 8
                         && !attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
-                    //BufferedImage imgBuf8 = imageMod8Bit(imgBuffered);
                     BufferedImage bi = bufferedImageFactory.get8bitBuffImage(raster);
-                    //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
                     imgPlanar = PlanarImage.wrapRenderedImage((RenderedImage) bi);
                 } else {
                     if (attributeReader.att.getPixelRepresentation() == 1
@@ -207,9 +171,8 @@ public class DicomFileReader {
                         if (attributeReader.att.getPixelRepresentation() == 0
                                 && attributeReader.att.getBitsAllocatedValue() == 8
                                 && attributeReader.att.getPhotoMetricInterpretation().equalsIgnoreCase("RGB")) {
-                            //BufferedImage imgBuf8 = imageModRGB8Bit(imgBuffered);
-                            imgPlanar = PlanarImage.wrapRenderedImage(imgBuffered);
-                            //imageTestplanarImage(imgPlanar); // testzzz 201804330
+                            BufferedImage bi = bufferedImageFactory.get8bitBuffImage(raster);
+                            imgPlanar = PlanarImage.wrapRenderedImage(bi);
                         }
                     }
                 }
@@ -217,17 +180,9 @@ public class DicomFileReader {
         }
         return imgPlanar;
     }
-
-    /*
-     * Set the windowWidth & windowCenter values.
-     * The ww and wc are read, by using the dcm4che library.
-     * Two different methods are used. The
-     * "((DcmMetadata)reader.getStreamMetadata()).getDataset().getString()",
-     * and by reading the Dicom image meta data and create a DOM object,
-     * modeling that data and using the XPath routines to find the Dicom tags.
-     *
-     * These methods set the wlMultipleValueExist status and merge the different readings
-     * into one datastructure.
+    
+    /**
+     * Set WindowWidth and WindowCenter status.  
      */
     private void setWWWCStatus() {
         wlMultipleValuesExist = false;
@@ -280,7 +235,6 @@ public class DicomFileReader {
         }
 
         // rescaleIntercept
-        // fix 2014-04-28
         if ((rescaleIntercept == 0.0) && (rescaleSlope == 1.0)) {
             rescaleIntercept = Double.MIN_VALUE;
             rescaleSlope = Double.MIN_VALUE;
@@ -315,16 +269,28 @@ public class DicomFileReader {
         //    cwStatus = cw.identity;
     }
 
+   
     /**
-     * stat[0][0] pos_min stat[0][1] pos_max stat[0][2] neg_min stat[0][3]
-     * neg_max stat[0][5] range_pos stat[0][4] range_neg stat[0][6] range_tot
-     * stat[0][7] mask1 stat[0][8] min stat[0][9] max stat[0][10] use mask1
-     * status stat[0][11] signed stat[0][12] no windowWidth offset
+     * stat[0][0] pos_min
+     * stat[0][1] pos_max
+     * stat[0][2] neg_min
+     * stat[0][3] neg_max
+     * stat[0][4] range_neg
+     * stat[0][5] range_pos
+     * stat[0][6] range_tot
+     * stat[0][7] mask1
+     * stat[0][8] min
+     * stat[0][9] max
+     * stat[0][10] use mask1 status
+     * stat[0][11] signed
+     * stat[0][12] no windowWidth offset
      *
      * Create windowWidth and windowCenter values for the initial display of
      * image. If window center and window width is not defined in DICOM
      * attributes, calculate and set the values. Apply Rescale Intercept &
      * Rescale Slope.
+     * @param imgPlanar
+     * @return 
      */
     private PlanarImage transformPlanarImage(PlanarImage imgPlanar) {
         PlanarImage pi = imgPlanar;
@@ -535,7 +501,10 @@ public class DicomFileReader {
     }
 
     /**
-     * Computing minimum and maximum pixel values.
+     * computeExtrema
+     * @param img
+     * @param roi
+     * @return minmax
      */
     private double[][] computeExtrema(PlanarImage img, ROIShape roi) {
         if (img == null) {
@@ -550,9 +519,11 @@ public class DicomFileReader {
         double[][] minmax = (double[][]) op.getProperty("extrema");
         return minmax;
     }
-
-    /*
+    
+    /**
      * applyRescaleSlopeIntercept2
+     * @param img
+     * @return imgBuf
      */
     private BufferedImage applyRescaleSlopeIntercept2(BufferedImage img) {
         WritableRaster wr = img.getRaster();
@@ -598,7 +569,6 @@ public class DicomFileReader {
 
     /**
      * getPixelSamples
-     *
      * @param img
      * @return
      */
@@ -610,10 +580,9 @@ public class DicomFileReader {
 
     /**
      * getPixelSamples
-     *
      * @param raster
      * @param imageSize
-     * @return
+     * @return pixel
      */
     public static int[][] getPixelSamples(Raster raster, Dimension imageSize) {
         if ((raster == null) || (imageSize == null)) {
@@ -644,7 +613,6 @@ public class DicomFileReader {
 
     /**
      * getAttributes
-     *
      * @return attributes
      */
     public Attributes getAttributes() {
@@ -653,8 +621,7 @@ public class DicomFileReader {
 
     /**
      * getWindowWidth
-     *
-     * @return
+     * @return windowWidth_t
      */
     public int[] getWindowWidth() {
         return windowWidth_t;
@@ -662,8 +629,7 @@ public class DicomFileReader {
 
     /**
      * getWindowCenter
-     *
-     * @return
+     * @return windowCenter_t
      */
     public int[] getWindowCenter() {
         return windowCenter_t;
@@ -671,8 +637,7 @@ public class DicomFileReader {
 
     /**
      * getWLMultipleValuesExist
-     *
-     * @return
+     * @return wlMultipleValuesExist
      */
     public boolean getWLMultipleValuesExist() {
         return wlMultipleValuesExist;
@@ -680,8 +645,7 @@ public class DicomFileReader {
 
     /**
      * getLoadedPlanarImage
-     *
-     * @return imgPlanar20
+     * @return planarImage_transformed
      */
     public PlanarImage getLoadedPlanarImage() {
         return planarImage_transformed;
@@ -689,7 +653,6 @@ public class DicomFileReader {
 
     /**
      * getModalityLUTSequenceStatus
-     *
      * @return modalityLUTSequenceStatus
      */
     public boolean getModalityLUTSequenceStatus() {
@@ -698,8 +661,7 @@ public class DicomFileReader {
 
     /**
      * getVoiLUTSequenceStatus
-     *
-     * @return
+     * @return voiLUTSequenceStatus
      */
     public boolean getVoiLUTSequenceStatus() {
         return voiLUTSequenceStatus;
@@ -707,8 +669,7 @@ public class DicomFileReader {
 
     /**
      * getRescaleSlopeInterceptStatus
-     *
-     * @return
+     * @return modalityLUTRescaleStatus
      */
     public boolean getRescaleSlopeInterceptStatus() {
         return modalityLUTRescaleStatus;
@@ -716,8 +677,7 @@ public class DicomFileReader {
 
     /**
      * getCenterWidthStatus
-     *
-     * @return
+     * @return voiLUTWindowCenterWindowWidthExist
      */
     public boolean getCenterWidthStatus() {
         return voiLUTWindowCenterWindowWidthExist;
@@ -725,8 +685,7 @@ public class DicomFileReader {
 
     /**
      * getIdentityStatus
-     *
-     * @return
+     * @return identityStatus
      */
     public boolean getIdentityStatus() {
         return identityStatus;
@@ -734,8 +693,7 @@ public class DicomFileReader {
 
     /**
      * getWindowCenterOffsetStatus
-     *
-     * @return
+     * @return windowCenterOffsetStatus
      */
     public boolean getWindowCenterOffsetStatus() {
         return windowCenterOffsetStatus;
@@ -743,7 +701,6 @@ public class DicomFileReader {
 
     /**
      * setImageStats
-     *
      * @param stats
      */
     private void setImageStats(int[][] stats) {
@@ -752,7 +709,6 @@ public class DicomFileReader {
 
     /**
      * getImageStats
-     *
      * @return imageStats
      */
     public int[][] getImageStats() {

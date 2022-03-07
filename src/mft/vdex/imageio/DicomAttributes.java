@@ -345,8 +345,8 @@ public class DicomAttributes {
         setLUTDataValue(LutData_str);
 
         // 0028,3010 VOI LUT Sequence
-        String VOILUTSequence = dataset.getString(Tag.VOILUTSequence, null);
-        setVOILUTSequenceValue(VOILUTSequence);
+        //String VOILUTSequence = dataset.getString(Tag.VOILUTSequence, null);
+        //setVOILUTSequenceValue(VOILUTSequence);
         
         // 0028,3006 LUT Data
         //lutData = dataset.getInt(Tag.LUTData, 0);
