@@ -87,7 +87,7 @@ public class ViewDex extends JFrame implements ListSelectListener, KeyListener,
     public static final String osType = "Windows";
     //public static final String osType = "Windows";
     public static final String productName = "ViewDEX 2";
-    public static final String productVersion = "ViewDEX-2.56";    
+    public static final String productVersion = "ViewDEX-2.57";    
     public AppMainAdmin appMainAdmin;
     public AppProperty appProperty;
     public AppPropertyCreate appPropertyCreate;

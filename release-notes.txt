@@ -2,6 +2,9 @@
 # Release-notes for ViewDEX version 2
 #
 
+# ViewDEX-2.57
+- Update DICOM libraries.
+
 # ViewDEX-2.56
 - Improved handling of multiframe files.
 

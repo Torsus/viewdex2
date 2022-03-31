@@ -38,8 +38,8 @@
         <txtFileVersion>2.0.0.0</txtFileVersion>
         <fileDescription>Windows native executables</fileDescription>
         <copyright>Sahlgrenska University Hospital</copyright>
-        <productVersion>2.5.6.0</productVersion>
-        <txtProductVersion>2.56</txtProductVersion>
+        <productVersion>2.5.7.0</productVersion>
+        <txtProductVersion>2.57</txtProductVersion>
         <productName>ViewDEX 2, Viewer for Digital Evaluation of Xray images</productName>
         <companyName>Sahlgrenska University Hospital</companyName>
         <internalName>ViewDEX</internalName>

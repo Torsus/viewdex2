@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.dcm4che3.io.DicomInputStream;
 import org.dcm4che3.io.DicomInputStream.IncludeBulkData;
 import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Tag;
 
 /**
  * @author Sune Svensson

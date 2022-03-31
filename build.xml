@@ -74,7 +74,7 @@
 
     <property name="project.dist.name" value="ViewDEX"/>
     <property name="project.version.major" value="2"/>
-    <property name="project.version.minor" value=".56"/>
+    <property name="project.version.minor" value=".57"/>
     <property name="project.name" value="${ant.project.name}"/>
 
     <!-- **** win, linux, macos, 64/32 *************************** -->
