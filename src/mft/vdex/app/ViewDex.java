@@ -75,6 +75,7 @@ import mft.vdex.viewer.Area;
 import mft.vdex.viewer.AreaGUI;
 import mft.vdex.viewer.AreaMeasurement;
 
+
 /**
  * <code>ViewDEX<code> is the main class for the ViewDEX application.
  * @author sune
