@@ -14,7 +14,7 @@ import java.util.Date;
 import javax.media.jai.PlanarImage;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
-import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
+//import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 import mft.vdex.app.AppMainAdmin;
 import mft.vdex.ds.StudyDbImageNode;
 import mft.vdex.ds.StudyDbStackNode;

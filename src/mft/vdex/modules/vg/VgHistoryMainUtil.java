@@ -21,7 +21,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import mft.vdex.app.ViewDex;
 import mft.vdex.ds.StudyDbStackNode;
-import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
+//import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 
 /**
  *
@@ -378,7 +378,7 @@ public class VgHistoryMainUtil {
      * Print History Object size.
      */
     public void printHistoryObjectSize(){
-        System.out.println("VgHistory.printHistoryObjectSize: " + " " + ObjectSizeCalculator.getObjectSize(history));
+  //      System.out.println("VgHistory.printHistoryObjectSize: " + " " + ObjectSizeCalculator.getObjectSize(history));
     }
     
     /**
@@ -386,7 +386,7 @@ public class VgHistoryMainUtil {
      * @param s 
      */
     public void printHistoryObjectSize(String s){
-        System.out.println("VgHistory.printHistoryObjectSize: " + s + " " + ObjectSizeCalculator.getObjectSize(history));
+  //      System.out.println("VgHistory.printHistoryObjectSize: " + s + " " + ObjectSizeCalculator.getObjectSize(history));
     }
     // end Test History object
     //=====================================================================

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch4jConfig>
     <headerType>gui</headerType>
-    <jar>C:\Development2\ViewDEX2\dist\ViewDEX.jar</jar>
-    <outfile>C:\Development2\ViewDEX2\dist\ViewDEX.exe</outfile>
+    <jar>C:\Development2\nya_viewdex2\ViewDEX2\dist\ViewDEX.jar</jar>
+    <outfile>C:\Development2\nya_viewdex2\ViewDEX2\dist\ViewDEX.exe</outfile>
     <errTitle>ViewDEX</errTitle>
-    <icon>C:\Development2\ViewDEX2\icons\viewdex.ico</icon>
+    <icon>C:\Development2\nya_viewdex2\ViewDEX2\icons\viewdex.ico</icon>
     <!-- <jar>C:\Development\ViewDEX-2.0\dist\viewdex_obf.jar</jar> -->
     <dontWrapJar>false</dontWrapJar>
 
