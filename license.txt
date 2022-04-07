@@ -1,4 +1,6 @@
 
+##### THIS IS NOT A MEDICAL DEVICE AND IT IS NOT INTENDED FOR CLINICAL USE #####
+
 ViewDEX software is developed and distributed under the following license
 "LICENCE AGREEMENT for ViewDEX". ViewDEX software also makes use of
 additional libraries made available for use and distribution by other

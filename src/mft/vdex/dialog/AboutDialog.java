@@ -385,7 +385,7 @@ public class AboutDialog extends JDialog{
         String comment = "(Ett exemple p� hur det kan se ut) / Sune Svensson.";
         String nl = "\n";
         String header = "LICENCE AGREEMENT for ViewDEX";
-        String release = "Release 1.0";
+        String release = "Release 2.57";
         
         // Important
         String licence10 = "IMPORTANT:This licence agreement is a binding contract between you and ";
