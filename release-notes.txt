@@ -65,7 +65,7 @@
 - Custom version.
 
 # ViewDEX-2.44
-- Modification of ROI distance- and pixel meanvalue measurement gui.
+- Modification of ROI distance- and pixel mean value measurement gui.
 - Taskpanel scrolllist now works properly.
 
 # ViewDEX-2.43
@@ -86,7 +86,7 @@
 - Add of study property "taskpanel.vertical.size".
 
 # ViewDEX-2.39_beta
-- Bugfix: Reformat of image when Pixel Represenation equals 1.
+- Bugfix: Reformat of image when Pixel Representation equals 1.
 
 # ViewDEX-2.38_beta
 - Bugfix: Display problems with Dicom images, 8 bit and big arrays. 
@@ -99,7 +99,7 @@
 - Bugfix:
 
 # ViewDEX-2.35_beta
-- Improvments on stack scroll performance.
+- Improvements on stack scroll performance.
 
 # ViewDEX-2.34_beta
 - Add of color property for canvas during load of images. Used by
@@ -123,7 +123,7 @@
 - Add of font and color properties for distance measurement text.
 - Add of color properties for distance measurement line.
 - Add of "Notes" panel. The notes are printed in the logfiles.
-- Property "stack.load.background" obsolite.
+- Property "stack.load.background" obsolete.
 - The "LoginOptionalDialog" is now displayed in the correct location when
   running the program from any screen other the screen 0.
 - Bugfix: Fix of logfiles creation when running in "demo" and "edit" runmode.  
@@ -143,7 +143,7 @@
 - Various dialog fonts are changed.
 - Custom CLUT (Color Look-Up Tables) for NM/MR.
 - Fixed minimum windowing for NM/MR. 
-- Bugfix: Size for the history object reduced for multframe images.
+- Bugfix: Size for the history object reduced for multiframe images.
 - Bugfix: Imagedb sequence sorting algorithm modified.
 
 # ViewDEX-2.26
@@ -188,15 +188,15 @@
 
 # ViewDEX-2.18
 - Support for localization.
-- Support for imagefiles and stack directories mixed in the imagedb root
+- Support for image files and stack directories mixed in the imagedb root
   directory.
 - Properties for specifying the viewing order when images and stacks
   are mixed in the imagedb directory. The sorting values are sequence or random.
-  For sequence sort, if the name of the imagefiles and the stack dirctories
+  For sequence sort, if the name of the image files and the stack directories
   (imagefile name minus the extension name eg.(100.dcm -> 100)) are parsed as
   signed decimal integers, the stack and images are sorted by there names.
 - Images in a stacks are now sorted, using the (0020,0013) InstanceNumber dicom
-  tag. The viewing order for images (imagefiles) contained in a stack is always
+  tag. The viewing order for images (image files) contained in a stack is always
   the "natural" order based on the 'Instans Number' There is no property to
   change this order. Note: General Image Module Attribute Name 'Instance Number'
   was named 'Image Number' in earlier versions of the DICOM standard.
@@ -213,11 +213,12 @@
 - The log file now has a "StackNb" summary entry for each image and stack.
 - Pan is prohibit when setting a localization mark on the canvas.
 - Default values for most of the properties.
-- Zooming an image by using the mouse scrollwheel by pressing the Altkey +
-  mousewheel (previous Ctrlkey + mousewheel).
+- Zooming an image by using the mouse scroll wheel by pressing the Altkey +
+  mouse wheel (previous Ctrlkey + mouse 
+wheel).
 - New properties for maintenance use in userRunMode 'EDIT' (Not to be included
   in the distribution).
-- Bugfix: During a mouseDrag operation combined whith the setting of a
+- Bugfix: During a mouseDrag operation combined with the setting of a
   localization mark, a "beep" sounds. This is now corrected.
 
 -- end

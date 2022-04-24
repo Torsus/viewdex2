@@ -29,7 +29,7 @@
 
 ##### Running the program
 No installation is needed for ViewDEX, and the program can run from any location
-(harddrive, USB, CD,...) as long as the hierarchy of all files in the directory
+(hard drive, USB, CD,...) as long as the hierarchy of all files in the directory
 is kept.
 
 To run the program, on Windows system execute the file ViewDEX.exe
@@ -112,7 +112,7 @@ and "FROC 2048x1536.properties") contain information about how to define the
 properties. The macOS distribution have additional files for the following
 resolutions, 1440x900 and 2880x1800. The file "user.properties", located in the
 same sub directory, is used to give readers access to specific studies. The file
-contains information about how this is done. All property files are ascii files,
+contains information about how this is done. All property files are ASCII files,
 readable by any text editor.
 
 ##### Description of the distribution
@@ -127,7 +127,7 @@ ViewDEX.exe        			-  Start file for Windows.
 README.txt         			-  Readme file.
 license.txt        			-  License information.
 icons                                   -  Directory for icons.
-lib/{linux,macos}/jre1.6.0              -  Java run time libraries (Linux and macOS)
+lib/{linux,macos}/jre1.8.0_191          -  Java run time libraries (Linux and macOS)
 ViewDEX.jar                             -  Class file (Linux and macOS).
 ViewDEX.sh                              -  Start file (Linux and macOS).
 ViewDEX.l4j.ini (Windows)               -  Program launcher configuration file.
@@ -168,7 +168,7 @@ Each study has its own [study].properties file. eg.
 ## Start file .\ViewDEX.exe (Windows)
 Executable file that start the program.
 
-## lib/{linux, macos}/jre1.6.0 (Linux and macOS)
+## lib/{linux, macos}/jre1.8.0_191 (Linux and macOS)
 The java runtime libraries for the application.
 
 ## Start file ./ViewDEX.sh (Linux and macOS)

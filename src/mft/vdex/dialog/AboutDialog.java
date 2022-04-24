@@ -390,7 +390,7 @@ public class AboutDialog extends JDialog{
         // Important
         String licence10 = "IMPORTANT:This licence agreement is a binding contract between you and ";
         String licence11 = "Sahlgrenska University Hospital, Goteborg Sweden, regarding the above mentioned Software. ";
-        String licence12 = "Read the terms of this agrement carefully. ";
+        String licence12 = "Read the terms of this agreement carefully. ";
         String licence13 = "By installing the Software you accept the terms and conditions of this agreement. ";
         String licence14 = "If you do not agree to the terms of this license agreement, remove the above mentioned Software from your computer.";
         String licence100 = licence10 + licence11 + licence12 + licence13 + licence14;
@@ -408,17 +408,17 @@ public class AboutDialog extends JDialog{
         String licence29 = "are owned by Sahlgrenska University Hospital, Gotenborg Sweden.";
         
         // Warrenty
-        String licence30 = "2. Warrenty, Liability, Indemnity";
-        String licence31 = "a) As the licence is granted for free, the Software is provided �as is� ";
-        String licence32 = "and there is no warrenty, representation, promise or guarantee of ";
+        String licence30 = "2. Warranty, Liability, Indemnity";
+        String licence31 = "a) As the licence is granted for free, the Software is provided \"as is\" ";
+        String licence32 = "and there is no warranty, representation, promise or guarantee of ";
         String licence33 = "Sahlgrenska University Hospital, either express or implied, statutory ";
         String licence34 = "or otherwise, with respect to the Sofware, user documentation or related ";
-        String licence35 = "technical support, including their quality, performance or fittness for a particular purpose.";
+        String licence35 = "technical support, including their quality, performance or fitness for a particular purpose.";
         
         String licence36 = "b) In no event will Sahlgrenska University Hospital be liable for indirect, special incidental ";
         String licence37 = "or economic damages arising out of the use of or inability to use the Software. ";
         String licence38 = "Sahlgrenska University Hospital will not be liable for any loss of profits, ";
-        String licence39 = "business, godwill, data or computer programs.";
+        String licence39 = "business, goodwill, data or computer programs.";
         
         String licence40 = "c) This Software is not intended for clinical use. This software has neither ";
         String licence41 = "been tested nor approved  for clinical use. It is the user's responsibility to ";
